@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>价格计算器 · Preiskalkulator · Price Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
   <style>
     :root {
       --primary: #2563EB;
@@ -800,7 +801,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     <div class="card-head">
       <span class="card-title">Produktübersicht · 商品汇总</span>
       <div class="tbl-actions">
-        <button class="dl-btn" onclick="exportCSV()">⬇ CSV herunterladen · 下载</button>
+        <button class="dl-btn" onclick="exportXLSX()">⬇ Excel herunterladen · 下载 .xlsx</button>
         <button class="clear-btn" onclick="clearAll()">Leeren · 清空</button>
       </div>
     </div>
@@ -1164,52 +1165,111 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     }).join('');
   }
 
-  function exportCSV() {
-    const BOM = '﻿';
-    const headers = [
-      'Artikelname · 商品名称',
-      'Plattform · 平台',
-      'VKP brutto · 售价(含税)',
-      'Netto-Erlös · 净营业额',
-      'Gebühren gesamt · 平台费合计',
-      'Versandmarke · 发货邮费',
-      'Fulfillment-Gebühr · 履约服务费',
-      'EK-Preis · 进货价',
-      'EK-Versand · 进货运费',
-      'Einfuhrzoll · 进口关税',
-      'Einkauf gesamt · 进货成本合计',
-      'Betriebsgewinn · 税前利润',
-      'Steuer · 企业税',
-      'Nettogewinn · 净利润',
-      'Marge (%) · 利润率(%)',
-      'Mindest-VKP · 最低售价',
+  async function exportXLSX() {
+    if (!window.ExcelJS) { alert('ExcelJS wird noch geladen – bitte kurz warten.'); return; }
+    const wb = new ExcelJS.Workbook();
+    wb.creator = 'Preiskalkulator';
+    const ws = wb.addWorksheet('Kalkulation');
+
+    const COLS = [
+      { key: 'img',   header: 'Bild · 图片',                    width: 9  },
+      { key: 'name',  header: 'Artikelname · 商品名称',           width: 28 },
+      { key: 'plat',  header: 'Plattform · 平台',                width: 10 },
+      { key: 'vkp',   header: 'VKP brutto · 售价(含税)',          width: 14 },
+      { key: 'net',   header: 'Netto-Erlös · 净营业额',           width: 14 },
+      { key: 'fee',   header: 'Gebühren · 平台费',               width: 12 },
+      { key: 'vs',    header: 'Versandmarke · 发货邮费',          width: 14 },
+      { key: 'ful',   header: 'Fulfillment · 履约服务费',         width: 14 },
+      { key: 'ek',    header: 'EK-Preis · 进货价',               width: 12 },
+      { key: 'ekv',   header: 'EK-Versand · 进货运费',           width: 13 },
+      { key: 'duty',  header: 'Einfuhrzoll · 进口关税',          width: 13 },
+      { key: 'ektot', header: 'Einkauf gesamt · 进货合计',       width: 14 },
+      { key: 'bg',    header: 'Betriebsgewinn · 税前利润',       width: 16 },
+      { key: 'tax',   header: 'Steuer · 企业税',                 width: 12 },
+      { key: 'netto', header: 'Nettogewinn · 净利润',            width: 14 },
+      { key: 'marge', header: 'Marge % · 利润率',               width: 11 },
+      { key: 'bke',   header: 'Mindest-VKP · 最低售价',         width: 15 },
     ];
 
-    const rows = savedProducts.map(p => [
-      p.name,
-      p.platform === 'ebay' ? 'eBay' : 'Etsy',
-      fmtN(p.vkp),
-      fmtN(p.netErloes),
-      fmtN(p.feeTotal),
-      fmtN(p.vsOut),
-      fmtN(p.pkg),
-      fmtN(p.ek),
-      fmtN(p.ekVs),
-      fmtN(p.duty),
-      fmtN(p.ekTotal),
-      fmtN(p.bg),
-      fmtN(p.tax),
-      fmtN(p.net),
-      (p.marg * 100).toFixed(1),
-      fmtN(p.bke),
-    ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(','));
+    ws.columns = COLS.map(c => ({ header: c.header, key: c.key, width: c.width }));
 
-    const csv = BOM + [headers.map(h => `"${h}"`).join(','), ...rows].join('\r\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    // header row style
+    const hRow = ws.getRow(1);
+    hRow.height = 30;
+    hRow.eachCell(cell => {
+      cell.font = { bold: true, size: 10, color: { argb: 'FF334155' } };
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF1F5F9' } };
+      cell.alignment = { vertical: 'middle', wrapText: true };
+      cell.border = { bottom: { style: 'medium', color: { argb: 'FFE2E8F0' } } };
+    });
+
+    // data rows
+    for (let i = 0; i < savedProducts.length; i++) {
+      const p    = savedProducts[i];
+      const rIdx = i + 2; // 1-based, header is row 1
+      const ROW_H = 52;
+
+      ws.addRow({
+        img:   '',
+        name:  p.name,
+        plat:  p.platform === 'ebay' ? 'eBay' : 'Etsy',
+        vkp:   +fmtN(p.vkp),
+        net:   +fmtN(p.netErloes),
+        fee:   +fmtN(p.feeTotal),
+        vs:    +fmtN(p.vsOut),
+        ful:   +fmtN(p.pkg),
+        ek:    +fmtN(p.ek),
+        ekv:   +fmtN(p.ekVs),
+        duty:  +fmtN(p.duty),
+        ektot: +fmtN(p.ekTotal),
+        bg:    +fmtN(p.bg),
+        tax:   +fmtN(p.tax),
+        netto: +fmtN(p.net),
+        marge: +(p.marg * 100).toFixed(1),
+        bke:   +fmtN(p.bke),
+      });
+
+      const row = ws.getRow(rIdx);
+      row.height = ROW_H;
+      row.eachCell(cell => {
+        cell.alignment = { vertical: 'middle' };
+        cell.border = { bottom: { style: 'thin', color: { argb: 'FFE2E8F0' } } };
+      });
+
+      // number format for euro columns
+      ['vkp','net','fee','vs','ful','ek','ekv','duty','ektot','bg','tax','netto','bke'].forEach(k => {
+        const cell = ws.getRow(rIdx).getCell(COLS.findIndex(c => c.key === k) + 1);
+        cell.numFmt = '#,##0.00 €';
+      });
+      ws.getRow(rIdx).getCell(COLS.findIndex(c => c.key === 'marge') + 1).numFmt = '0.0"%"';
+
+      // embed image
+      if (p.img) {
+        try {
+          const match = p.img.match(/^data:image\/(\w+);base64,(.+)$/);
+          if (match) {
+            const ext    = match[1].toLowerCase().replace('jpg','jpeg');
+            const b64    = match[2];
+            const imgId  = wb.addImage({ base64: b64, extension: ext });
+            ws.addImage(imgId, {
+              tl: { col: 0, row: rIdx - 1 },
+              ext: { width: 55, height: 55 },
+              editAs: 'oneCell',
+            });
+          }
+        } catch(e) { /* skip bad image */ }
+      }
+    }
+
+    // freeze header
+    ws.views = [{ state: 'frozen', ySplit: 1 }];
+
+    const buf  = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     a.href     = url;
-    a.download = `Kalkulation_${new Date().toISOString().slice(0,10)}.csv`;
+    a.download = `Kalkulation_${new Date().toISOString().slice(0,10)}.xlsx`;
     a.click();
     URL.revokeObjectURL(url);
   }
