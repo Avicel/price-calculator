@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>价格计算器 · Preiskalkulator · Price Calculator</title>
+  <style>
+    :root {
+      --primary: #2563EB;
+      --primary-bg: #EFF6FF;
+      --red: #DC2626;
+      --red-bg: #FEF2F2;
+      --green: #16A34A;
+      --green-bg: #F0FDF4;
+      --gray-50: #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-400: #94A3B8;
+      --gray-500: #64748B;
+      --gray-700: #334155;
+      --gray-900: #0F172A;
+      --radius: 14px;
+      --shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      min-height: 100vh;
+      padding: 28px 16px 64px;
+    }
+
+    .page { max-width: 680px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+    .header p {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 4px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .card-body { padding: 18px; }
+
+    /* ── Toggle button ── */
+    .ghost-btn {
+      background: none;
+      border: 1px solid var(--gray-200);
+      border-radius: 7px;
+      padding: 5px 11px;
+      font-size: 11px;
+      color: var(--gray-500);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.1s;
+    }
+    .ghost-btn:hover { background: var(--gray-50); }
+
+    /* ── Settings panel ── */
+    .settings-body { display: none; }
+    .settings-body.open { display: block; }
+
+    /* ── Platform toggle ── */
+    .platform-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .plat-btn {
+      flex: 1;
+      padding: 9px 0;
+      border: 2px solid var(--gray-200);
+      border-radius: 9px;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-500);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.12s;
+      text-align: center;
+    }
+    .plat-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+
+    /* ── Form ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .fg { display: flex; flex-direction: column; gap: 5px; }
+    .fg.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    .inp-wrap { position: relative; }
+    .inp-wrap .sym {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--gray-900);
+      background: #fff;
+      font-family: inherit;
+      transition: border-color 0.12s, box-shadow 0.12s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .inp-wrap input { padding-left: 24px; }
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    /* ── Image upload ── */
+    .img-zone {
+      border: 2px dashed var(--gray-200);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.12s;
+      position: relative;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .img-zone:hover { border-color: var(--primary); }
+    .img-zone input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .img-zone img {
+      max-height: 110px;
+      max-width: 100%;
+      border-radius: 6px;
+      object-fit: contain;
+    }
+    .img-hint {
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+    .img-icon { font-size: 26px; }
+
+    /* ── Results ── */
+    .prod-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .prod-thumb {
+      width: 52px; height: 52px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: var(--gray-100);
+      flex-shrink: 0;
+    }
+    .prod-thumb-ph {
+      width: 52px; height: 52px;
+      border-radius: 8px;
+      background: var(--gray-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .prod-info-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .prod-info-plat {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+
+    /* result rows */
+    .rrow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .rrow:last-child { border-bottom: none; }
+    .rlabel {
+      font-size: 13px;
+      color: var(--gray-700);
+      line-height: 1.4;
+    }
+    .rlabel .sub {
+      display: block;
+      font-size: 10.5px;
+      color: var(--gray-400);
+      margin-top: 1px;
+    }
+    .rval {
+      font-size: 14px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .rval.neg { color: var(--red); }
+    .rval.pos { color: var(--green); }
+    .rval.dim { color: var(--gray-500); font-weight: 500; }
+
+    /* sub-rows (indented) */
+    .srow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0 5px 16px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .srow .slabel { font-size: 12px; color: var(--gray-500); }
+    .srow .sval {
+      font-size: 12px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .sval.neg { color: var(--red); }
+
+    /* section header */
+    .sec {
+      padding: 12px 0 3px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    /* subtotal band */
+    .band {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 12px;
+      border-radius: 8px;
+      margin: 6px -4px;
+    }
+    .band .blabel { font-size: 13px; font-weight: 600; }
+    .band .bsub { font-size: 10.5px; color: var(--gray-400); margin-top: 1px; }
+    .band .bval { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .band.neutral { background: var(--gray-100); }
+    .band.green { background: var(--green-bg); }
+    .band.red { background: var(--red-bg); }
+
+    /* total row */
+    .tot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0 10px;
+      border-top: 2px solid var(--gray-900);
+    }
+    .tot .tlabel { font-size: 14px; font-weight: 700; }
+    .tot .tsub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+    .tot .tval { font-size: 22px; font-weight: 800; }
+    .tot .tpct { font-size: 12px; font-weight: 600; text-align: right; margin-top: 2px; }
+
+    /* breakeven */
+    .bke {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--gray-100);
+      border-radius: 9px;
+      padding: 11px 14px;
+      margin-top: 14px;
+    }
+    .bke-label { font-size: 10.5px; color: var(--gray-500); line-height: 1.5; }
+    .bke-val { font-size: 20px; font-weight: 800; color: var(--gray-900); }
+    .bke-div {
+      width: 1px;
+      height: 36px;
+      background: var(--gray-200);
+    }
+    .bke-up-label { font-size: 10px; color: var(--gray-400); }
+    .bke-up-val { font-size: 14px; font-weight: 700; color: var(--green); }
+
+    /* stacked bar */
+    .bar-wrap { margin-top: 18px; }
+    .bar {
+      display: flex;
+      height: 20px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .bar-seg { height: 100%; transition: width 0.3s ease; }
+    .bar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .leg {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      color: var(--gray-500);
+    }
+    .leg-dot {
+      width: 9px; height: 9px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ── Save button ── */
+    .save-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 18px;
+      padding: 11px 0;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .save-btn:hover { background: #1D4ED8; }
+    .save-btn:active { background: #1E40AF; }
+
+    /* ── Summary table ── */
+    .tbl-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 680px;
+    }
+    thead tr {
+      background: var(--gray-100);
+    }
+    th {
+      padding: 8px 10px;
+      text-align: right;
+      font-weight: 600;
+      color: var(--gray-500);
+      font-size: 10px;
+      line-height: 1.4;
+      white-space: pre-line;
+      border-bottom: 2px solid var(--gray-200);
+    }
+    th:first-child, th:nth-child(2) { text-align: left; }
+    td {
+      padding: 9px 10px;
+      text-align: right;
+      border-bottom: 1px solid var(--gray-100);
+      color: var(--gray-700);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    td:first-child { text-align: left; }
+    td:nth-child(2) { text-align: left; }
+    tbody tr:hover { background: var(--gray-50); }
+    .td-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .td-thumb {
+      width: 28px; height: 28px;
+      border-radius: 5px;
+      object-fit: contain;
+      background: var(--gray-100);
+      flex-shrink: 0;
+    }
+    .td-thumb-ph {
+      width: 28px; height: 28px;
+      border-radius: 5px;
+      background: var(--gray-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .plat-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+    .td-pos { color: var(--green); font-weight: 600; }
+    .td-neg { color: var(--red); font-weight: 600; }
+    .del-btn {
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 15px;
+      padding: 0 4px;
+      line-height: 1;
+      font-family: inherit;
+    }
+    .del-btn:hover { color: var(--red); }
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .dl-btn:hover { background: #15803D; }
+    .clear-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: none;
+      color: var(--gray-500);
+      border: 1px solid var(--gray-200);
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .clear-btn:hover { color: var(--red); border-color: var(--red); }
+    .tbl-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .note {
+      font-size: 10.5px;
+      color: var(--gray-400);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .fg.full { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>价格计算器 · Preiskalkulator · Price Calculator</h1>
+    <p>UG (haftungsbeschränkt) · eBay · Etsy</p>
+  </div>
+
+  <!-- Settings -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-title">⚙ 全局设置 · Einstellungen · Settings</span>
+      <button class="ghost-btn" onclick="toggleSettings()" id="s-btn">展开 · Öffnen · Expand</button>
+    </div>
+    <div class="settings-body card-body" id="settings-body">
+      <div class="form-grid">
+        <div class="fg">
+          <label>eBay 佣金率 · eBay Provision · eBay Rate (%)<br><span style="color:#94A3B8">当前12%，2026年7月起14% · Ab Juli 2026: 14%</span></label>
+          <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-ebay-rate" value="12" step="0.1" min="0" max="30"></div>
+        </div>
+        <div class="fg">
+          <label>eBay 固定费/单 · eBay Festgebühr · eBay Fixed Fee (€)</label>
+          <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-ebay-fixed" value="0.45" step="0.01" min="0"></div>
+        </div>
+        <div class="fg">
+          <label>Etsy 交易费 · Etsy Transaktionsgebühr · Etsy Transaction (%)</label>
+          <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-etsy-tx" value="6.5" step="0.1" min="0"></div>
+        </div>
+        <div class="fg">
+          <label>Etsy 支付处理费 · Etsy Zahlungsgebühr · Etsy Payment (%)</label>
+          <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-etsy-pay-pct" value="4" step="0.1" min="0"></div>
+        </div>
+        <div class="fg">
+          <label>Etsy 支付固定费 · Etsy Zahlungsfestgebühr · Etsy Payment Fixed (€)</label>
+          <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-etsy-pay-fixed" value="0.30" step="0.01" min="0"></div>
+        </div>
+        <div class="fg">
+          <label>Etsy 刊登费 · Etsy Einstellgebühr · Etsy Listing Fee (€)</label>
+          <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-etsy-listing" value="0.18" step="0.01" min="0"></div>
+        </div>
+        <div class="fg">
+          <label>企业税率 · Körperschaft+Gewerbe · Corporate Tax Rate (%)</label>
+          <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-tax" value="30" step="1" min="0" max="60"></div>
+        </div>
+        <div class="fg">
+          <label>默认履约服务费 · Standard-Fulfillment · Default Fulfillment Fee (€)</label>
+          <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-pkg" value="0.80" step="0.01" min="0"></div>
+        </div>
+      </div>
+      <p class="note">
+        UG (haftungsbeschränkt)：平台费的 MwSt. 19% 可作进项税抵扣，计算以净额为准。<br>
+        Als umsatzsteuerpflichtiges Unternehmen ist die MwSt. auf Plattformgebühren als Vorsteuer abzugsfähig – Berechnung erfolgt auf Netto-Basis.
+      </p>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-title">商品信息 · Produktinfo · Product Info</span>
+    </div>
+    <div class="card-body">
+
+      <!-- Platform -->
+      <div class="platform-row">
+        <button class="plat-btn active" id="btn-ebay" onclick="setPlatform('ebay')">eBay</button>
+        <button class="plat-btn" id="btn-etsy" onclick="setPlatform('etsy')">Etsy</button>
+      </div>
+
+      <div class="form-grid">
+
+        <!-- Image -->
+        <div class="fg full">
+          <label>商品图片 · Produktbild · Product Image</label>
+          <div class="img-zone" id="img-zone">
+            <input type="file" accept="image/*" id="img-input" onchange="onImg(event)">
+            <div id="img-ph">
+              <div class="img-icon">📦</div>
+              <div class="img-hint">点击上传 · Klicken · Click to upload</div>
+            </div>
+            <img id="img-preview" class="hidden" alt="preview">
+          </div>
+        </div>
+
+        <!-- Name -->
+        <div class="fg full">
+          <label>商品名称 · Artikelname · Product Name</label>
+          <input type="text" id="name" placeholder="z.B. Bondageseil 10m">
+        </div>
+
+        <!-- VKP -->
+        <div class="fg">
+          <label>售价（含税）· VKP brutto · Selling Price (gross incl. 19% VAT)</label>
+          <div class="inp-wrap"><span class="sym">€</span>
+            <input type="number" id="vkp" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+          </div>
+        </div>
+
+        <!-- EK -->
+        <div class="fg">
+          <label>进货价 · EK-Preis · Purchase Price per Unit</label>
+          <div class="inp-wrap"><span class="sym">€</span>
+            <input type="number" id="ek" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+          </div>
+        </div>
+
+        <!-- EK Versand -->
+        <div class="fg">
+          <label>进货运费/件 · EK-Versand · Inbound Shipping per Unit</label>
+          <div class="inp-wrap"><span class="sym">€</span>
+            <input type="number" id="ek-vs" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+          </div>
+        </div>
+
+        <!-- Versandmarke -->
+        <div class="fg">
+          <label>发货邮费 · Versandmarke · Outbound Postage</label>
+          <div class="inp-wrap"><span class="sym">€</span>
+            <input type="number" id="vs-out" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+          </div>
+        </div>
+
+        <!-- Verpackung -->
+        <div class="fg">
+          <label>履约服务费 · Fulfillment-Gebühr · Fulfillment Fee<br><span style="color:#94A3B8">包装+储存+打包+发货 · inkl. Verpackung, Lager, Versand</span></label>
+          <div class="inp-wrap"><span class="sym">€</span>
+            <input type="number" id="pkg" placeholder="0.80" step="0.01" min="0" oninput="calc()">
+          </div>
+        </div>
+
+        <!-- Import Duty -->
+        <div class="fg">
+          <label>进口关税（可选）· Einfuhrzoll · Import Duty (optional)</label>
+          <div class="inp-wrap"><span class="sym">€</span>
+            <input type="number" id="duty" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card hidden" id="results-card">
+
+    <!-- Product header -->
+    <div class="prod-head">
+      <div class="prod-thumb-ph" id="r-ph">📦</div>
+      <img class="prod-thumb hidden" id="r-img" alt="">
+      <div>
+        <div class="prod-info-name" id="r-name">—</div>
+        <div class="prod-info-plat" id="r-plat">eBay</div>
+      </div>
+    </div>
+
+    <div class="card-body" id="results-body"></div>
+  </div>
+
+  <!-- Summary table -->
+  <div class="card hidden" id="summary-card">
+    <div class="card-head">
+      <span class="card-title">商品汇总 · Produktübersicht · Product Summary</span>
+      <div class="tbl-actions">
+        <button class="dl-btn" onclick="exportCSV()">⬇ 下载 CSV · Herunterladen · Download</button>
+        <button class="clear-btn" onclick="clearAll()">清空 · Leeren · Clear All</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0">
+      <div class="tbl-wrap">
+        <table id="summary-table">
+          <thead>
+            <tr>
+              <th style="min-width:140px">商品名称\nArtikelnname\nProduct Name</th>
+              <th>平台\nPlattform\nPlatform</th>
+              <th>售价\nVKP\nSelling Price</th>
+              <th>净营业额\nNetto-Erlös\nNet Revenue</th>
+              <th>平台费\nGebühren\nPlatform Fees</th>
+              <th>发货+履约\nVersand+Fulfill.\nShipping+Fulfil.</th>
+              <th>进货成本\nEinkauf\nPurchase Cost</th>
+              <th>税前利润\nBetriebsgew.\nOp. Profit</th>
+              <th>净利润\nNettogewinn\nNet Profit</th>
+              <th>利润率\nMarge\nMargin</th>
+              <th>最低售价\nMindest-VKP\nBreak-even</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="summary-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+  let platform = 'ebay';
+  let imgSrc = null;
+
+  function setPlatform(p) {
+    platform = p;
+    document.getElementById('btn-ebay').classList.toggle('active', p === 'ebay');
+    document.getElementById('btn-etsy').classList.toggle('active', p === 'etsy');
+    calc();
+  }
+
+  function toggleSettings() {
+    const body = document.getElementById('settings-body');
+    const btn  = document.getElementById('s-btn');
+    const open = body.classList.toggle('open');
+    btn.textContent = open ? '收起 · Schließen · Collapse' : '展开 · Öffnen · Expand';
+  }
+
+  function onImg(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      imgSrc = ev.target.result;
+      const ph = document.getElementById('img-ph');
+      const pr = document.getElementById('img-preview');
+      ph.classList.add('hidden');
+      pr.src = imgSrc;
+      pr.classList.remove('hidden');
+      // results header
+      document.getElementById('r-img').src = imgSrc;
+      document.getElementById('r-img').classList.remove('hidden');
+      document.getElementById('r-ph').classList.add('hidden');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function g(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+  function settings() {
+    return {
+      ebayRate  : g('s-ebay-rate')     / 100,
+      ebayFixed : g('s-ebay-fixed'),
+      etsyTx    : g('s-etsy-tx')       / 100,
+      etsyPayPct: g('s-etsy-pay-pct')  / 100,
+      etsyPayFx : g('s-etsy-pay-fixed'),
+      etsyList  : g('s-etsy-listing'),
+      tax       : g('s-tax')           / 100,
+      defPkg    : g('s-pkg'),
+    };
+  }
+
+  function fmt(n)    { return (n < 0 ? '–' : '') + '€' + Math.abs(n).toFixed(2); }
+  function fmtP(n)   { return (n * 100).toFixed(1) + '%'; }
+  function fmtS(n, show_sign) {
+    return (show_sign && n >= 0 ? '+' : '') + fmt(n);
+  }
+
+  function calc() {
+    const s   = settings();
+    const vkp = g('vkp');
+    if (vkp <= 0) { document.getElementById('results-card').classList.add('hidden'); return; }
+
+    const ek    = g('ek');
+    const ekVs  = g('ek-vs');
+    const vsOut = g('vs-out');
+    const pkg   = g('pkg') || s.defPkg;
+    const duty  = g('duty');
+
+    /* ── VAT ── */
+    const mwst     = vkp * 19 / 119;
+    const netErloes = vkp / 1.19;
+
+    /* ── Platform fees (NET – MwSt. recoverable for UG) ── */
+    let feeLines = [], feeTotal = 0;
+    if (platform === 'ebay') {
+      const prov  = vkp * s.ebayRate;
+      const fixed = s.ebayFixed;
+      feeLines = [
+        { label: `eBay 佣金 · Provision · Commission`, sub: `${(s.ebayRate*100).toFixed(1)}% × €${vkp.toFixed(2)}`, val: prov },
+        { label: 'eBay 固定费/单 · Festgebühr · Fixed Fee', sub: '', val: fixed },
+      ];
+      feeTotal = prov + fixed;
+    } else {
+      const tx   = vkp * s.etsyTx;
+      const pay  = vkp * s.etsyPayPct + s.etsyPayFx;
+      const list = s.etsyList;
+      feeLines = [
+        { label: 'Etsy 交易费 · Transaktionsgebühr · Transaction', sub: `${(s.etsyTx*100).toFixed(1)}% × €${vkp.toFixed(2)}`, val: tx },
+        { label: 'Etsy 支付费 · Zahlungsgebühr · Payment', sub: `${(s.etsyPayPct*100).toFixed(1)}% + €${s.etsyPayFx}`, val: pay },
+        { label: 'Etsy 刊登费 · Einstellgebühr · Listing', sub: 'per Artikel', val: list },
+      ];
+      feeTotal = tx + pay + list;
+    }
+
+    /* ── Cost buckets ── */
+    const shipTotal = vsOut + pkg;
+    const ekTotal   = ek + ekVs + duty;
+
+    /* ── Profit ── */
+    const bg   = netErloes - feeTotal - shipTotal - ekTotal;
+    const tax  = Math.max(0, bg * s.tax);
+    const net  = bg - tax;
+    const marg = netErloes > 0 ? net / netErloes : 0;
+
+    /* ── Break-even (gross VKP where bg = 0) ──
+       netErloes - feeRate*VKP - feeFixed - fixedCosts = 0
+       VKP*(1/1.19 - feeRate) = feeFixed + fixedCosts          */
+    const feeFixed = platform === 'ebay' ? s.ebayFixed : (s.etsyPayFx + s.etsyList);
+    const feeRate  = platform === 'ebay' ? s.ebayRate  : (s.etsyTx + s.etsyPayPct);
+    const denom    = 1/1.19 - feeRate;
+    const bke      = denom > 0 ? (feeFixed + shipTotal + ekTotal) / denom : 0;
+    const markup   = vkp - bke;
+
+    render({ vkp, mwst, netErloes, feeLines, feeTotal, vsOut, pkg, shipTotal,
+             ek, ekVs, duty, ekTotal, bg, tax, net, marg, bke, markup, s });
+  }
+
+  function el(tag, cls, html) {
+    return `<${tag} class="${cls}">${html}</${tag}>`;
+  }
+
+  function rrow(zh, de, en, val, cls) {
+    return `<div class="rrow">
+      <div class="rlabel">${zh}<span class="sub">${de} · ${en}</span></div>
+      <div class="rval ${cls}">${val}</div>
+    </div>`;
+  }
+
+  function srow(label, val, cls = '') {
+    return `<div class="srow"><span class="slabel">${label}</span><span class="sval ${cls}">${val}</span></div>`;
+  }
+
+  function sec(zh, de, en) {
+    return `<div class="sec">${zh} · ${de} · ${en}</div>`;
+  }
+
+  function band(zh, de, en, val, pct, color, valCls) {
+    return `<div class="band ${color}">
+      <div><div class="blabel">${zh}</div><div class="bsub">${de} · ${en}</div></div>
+      <div style="text-align:right">
+        <div class="bval ${valCls}">${val}</div>
+        ${pct ? `<div style="font-size:11px;color:var(--gray-500);margin-top:1px">${pct}</div>` : ''}
+      </div>
+    </div>`;
+  }
+
+  function render(d) {
+    // product header
+    const name = document.getElementById('name').value.trim() || '—';
+    document.getElementById('r-name').textContent = name;
+    document.getElementById('r-plat').textContent = platform === 'ebay' ? 'eBay' : 'Etsy';
+
+    let h = '';
+
+    /* ── Revenue ── */
+    h += sec('收入', 'Erlös', 'Revenue');
+    h += rrow('售价（含税）', 'VKP brutto', 'Selling Price (gross)', fmt(d.vkp), 'dim');
+    h += srow(`└ 其中 MwSt. 19%（→ Finanzamt，非您收入 · kein Erlös）`, `–${fmt(d.mwst)}`, 'neg');
+    h += band('净营业额', 'Netto-Erlös', 'Net Revenue', fmt(d.netErloes), '', 'neutral', '');
+
+    /* ── Platform fees ── */
+    h += sec('平台费用', 'Plattformgebühren', 'Platform Fees');
+    d.feeLines.forEach(f => {
+      h += srow(`└ ${f.label}${f.sub ? ` (${f.sub})` : ''}`, `–${fmt(f.val)}`, 'neg');
+    });
+    h += rrow('平台费合计', 'Gebühren gesamt', 'Total Platform Fees', `–${fmt(d.feeTotal)}`, 'neg');
+    h += `<div style="padding:2px 0 0 16px;font-size:10px;color:var(--gray-400);padding-bottom:4px;">
+      MwSt. 19% auf Gebühren als Vorsteuer abzugsfähig (UG) · 平台费增值税可抵扣
+    </div>`;
+
+    /* ── Shipping ── */
+    h += sec('发货与履约成本', 'Versand & Fulfillment', 'Shipping & Fulfillment');
+    if (d.vsOut > 0) h += srow('└ 运费 · Versandmarke · Postage', `–${fmt(d.vsOut)}`, 'neg');
+    if (d.pkg  > 0) h += srow('└ 履约服务费 · Fulfillment-Gebühr · Fulfillment Fee', `–${fmt(d.pkg)}`, 'neg');
+    h += rrow('发货成本合计', 'Versandkosten gesamt', 'Total Shipping', `–${fmt(d.shipTotal)}`, 'neg');
+
+    /* ── Purchase ── */
+    h += sec('进货成本', 'Einkaufskosten', 'Purchase Costs');
+    if (d.ek   > 0) h += srow('└ 商品价格 · Warenwert · Item Cost',         `–${fmt(d.ek)}`,   'neg');
+    if (d.ekVs > 0) h += srow('└ 进货运费 · EK-Versand · Inbound Shipping', `–${fmt(d.ekVs)}`, 'neg');
+    if (d.duty > 0) h += srow('└ 进口关税 · Einfuhrzoll · Import Duty',     `–${fmt(d.duty)}`, 'neg');
+    h += rrow('进货成本合计', 'Einkaufskosten gesamt', 'Total Purchase Costs', `–${fmt(d.ekTotal)}`, 'neg');
+
+    /* ── Operating profit ── */
+    const bgColor = d.bg >= 0 ? 'green' : 'red';
+    const bgCls   = d.bg >= 0 ? 'pos'   : 'neg';
+    h += band('税前利润', 'Betriebsgewinn', 'Operating Profit',
+              fmt(d.bg), fmtP(d.bg / d.netErloes), bgColor, bgCls);
+
+    /* ── Tax ── */
+    if (d.bg > 0) {
+      h += sec('企业税', 'Körperschaft- & Gewerbesteuer', 'Corporate Tax');
+      h += srow(`└ 税率 ${(d.s.tax*100).toFixed(0)}%`, `–${fmt(d.tax)}`, 'neg');
+    }
+
+    /* ── Net profit ── */
+    const npCls = d.net >= 0 ? 'pos' : 'neg';
+    h += `<div class="tot">
+      <div>
+        <div class="tlabel">净利润 · Nettogewinn · Net Profit</div>
+        <div class="tsub">占净营业额 · % des Netto-Erlöses · % of Net Revenue</div>
+      </div>
+      <div style="text-align:right">
+        <div class="tval ${npCls}">${fmt(d.net)}</div>
+        <div class="tpct ${npCls}">${fmtP(d.marg)}</div>
+      </div>
+    </div>`;
+
+    /* ── Break-even ── */
+    h += `<div class="bke">
+      <div>
+        <div class="bke-label">最低售价 · Mindest-VKP · Break-even Price<br>(利润=0 · Gewinn=0 · Zero Profit)</div>
+        <div class="bke-val">${fmt(d.bke)}</div>
+      </div>
+      <div class="bke-div"></div>
+      <div>
+        <div class="bke-up-label">当前溢价 · Aufschlag · Markup above BEP</div>
+        <div class="bke-up-val">${d.markup >= 0 ? '+' : ''}${fmt(d.markup)}</div>
+      </div>
+    </div>`;
+
+    /* ── Visual bar ── */
+    const total = d.vkp;
+    const segs = [
+      { label: `MwSt. → Finanzamt`,   color: '#94A3B8', amt: d.mwst },
+      { label: `平台费 · Fees`,        color: '#FB923C', amt: d.feeTotal },
+      { label: `发货 · Versand`,       color: '#60A5FA', amt: d.shipTotal },
+      { label: `进货 · EK`,            color: '#F472B6', amt: d.ekTotal },
+      { label: `税 · Steuer`,          color: '#A78BFA', amt: Math.max(0, d.tax) },
+      { label: `净利润 · Nettogewinn`, color: '#34D399', amt: Math.max(0, d.net) },
+    ].filter(s => s.amt > 0);
+
+    h += `<div class="bar-wrap">
+      <div class="bar">
+        ${segs.map(s => `<div class="bar-seg" style="width:${(s.amt/total*100).toFixed(1)}%;background:${s.color}"></div>`).join('')}
+      </div>
+      <div class="bar-legend">
+        ${segs.map(s => `<div class="leg"><div class="leg-dot" style="background:${s.color}"></div>${s.label}</div>`).join('')}
+      </div>
+    </div>`;
+
+    h += `<button class="save-btn" onclick="saveProduct()">＋ 保存此商品 · Artikel speichern · Save Product</button>`;
+
+    document.getElementById('results-body').innerHTML = h;
+    document.getElementById('results-card').classList.remove('hidden');
+
+    // stash current data for saving
+    window._lastCalc = d;
+    window._lastCalc.name     = document.getElementById('name').value.trim() || '—';
+    window._lastCalc.platform = platform;
+    window._lastCalc.img      = imgSrc;
+  }
+
+  /* ── Saved products ── */
+  let savedProducts = [];
+
+  function saveProduct() {
+    const d = window._lastCalc;
+    if (!d) return;
+    const entry = { ...d, id: Date.now() };
+    savedProducts.push(entry);
+    localStorage.setItem('kalk-saved-v1', JSON.stringify(savedProducts));
+    renderSummary();
+    // flash feedback
+    const btn = document.querySelector('.save-btn');
+    if (btn) { btn.textContent = '✓ 已保存 · Gespeichert · Saved'; setTimeout(() => { btn.textContent = '＋ 保存此商品 · Artikel speichern · Save Product'; }, 1500); }
+  }
+
+  function deleteProduct(id) {
+    savedProducts = savedProducts.filter(p => p.id !== id);
+    localStorage.setItem('kalk-saved-v1', JSON.stringify(savedProducts));
+    renderSummary();
+  }
+
+  function clearAll() {
+    if (!confirm('清空所有已保存商品？\nAlle gespeicherten Artikel löschen?\nDelete all saved products?')) return;
+    savedProducts = [];
+    localStorage.removeItem('kalk-saved-v1');
+    renderSummary();
+  }
+
+  function fmtN(n) { return n.toFixed(2); }
+
+  function renderSummary() {
+    const card = document.getElementById('summary-card');
+    const tbody = document.getElementById('summary-body');
+    if (savedProducts.length === 0) { card.classList.add('hidden'); return; }
+    card.classList.remove('hidden');
+
+    tbody.innerHTML = savedProducts.map(p => {
+      const npCls = p.net >= 0 ? 'td-pos' : 'td-neg';
+      const bgCls = p.bg  >= 0 ? 'td-pos' : 'td-neg';
+      const thumb = p.img
+        ? `<img class="td-thumb" src="${p.img}" alt="">`
+        : `<div class="td-thumb-ph">📦</div>`;
+      return `<tr>
+        <td><div class="td-name">${thumb}<span>${p.name}</span></div></td>
+        <td><span class="plat-badge">${p.platform === 'ebay' ? 'eBay' : 'Etsy'}</span></td>
+        <td>${fmt(p.vkp)}</td>
+        <td>${fmt(p.netErloes)}</td>
+        <td class="td-neg">–${fmt(p.feeTotal)}</td>
+        <td class="td-neg">–${fmt(p.shipTotal)}</td>
+        <td class="td-neg">–${fmt(p.ekTotal)}</td>
+        <td class="${bgCls}">${fmt(p.bg)}</td>
+        <td class="${npCls}">${fmt(p.net)}</td>
+        <td class="${npCls}">${fmtP(p.marg)}</td>
+        <td>${fmt(p.bke)}</td>
+        <td><button class="del-btn" onclick="deleteProduct(${p.id})">×</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function exportCSV() {
+    const BOM = '﻿';
+    const headers = [
+      '商品名称 / Artikelname / Product Name',
+      '平台 / Plattform / Platform',
+      '售价(含税) / VKP (brutto) / Selling Price (gross)',
+      '净营业额 / Netto-Erlös / Net Revenue',
+      '平台费合计 / Gebühren gesamt / Total Platform Fees',
+      '发货邮费 / Versandmarke / Outbound Postage',
+      '履约服务费 / Fulfillment-Gebühr / Fulfillment Fee',
+      '进货价 / EK-Preis / Purchase Price',
+      '进货运费 / EK-Versand / Inbound Shipping',
+      '进口关税 / Einfuhrzoll / Import Duty',
+      '进货成本合计 / Einkauf gesamt / Total Purchase Cost',
+      '税前利润 / Betriebsgewinn / Operating Profit',
+      '企业税 / Steuer / Corporate Tax',
+      '净利润 / Nettogewinn / Net Profit',
+      '利润率(%) / Marge (%) / Margin (%)',
+      '最低售价 / Mindest-VKP / Break-even Price',
+    ];
+
+    const rows = savedProducts.map(p => [
+      p.name,
+      p.platform === 'ebay' ? 'eBay' : 'Etsy',
+      fmtN(p.vkp),
+      fmtN(p.netErloes),
+      fmtN(p.feeTotal),
+      fmtN(p.vsOut),
+      fmtN(p.pkg),
+      fmtN(p.ek),
+      fmtN(p.ekVs),
+      fmtN(p.duty),
+      fmtN(p.ekTotal),
+      fmtN(p.bg),
+      fmtN(p.tax),
+      fmtN(p.net),
+      (p.marg * 100).toFixed(1),
+      fmtN(p.bke),
+    ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(','));
+
+    const csv = BOM + [headers.map(h => `"${h}"`).join(','), ...rows].join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `Kalkulation_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function loadSaved() {
+    try {
+      savedProducts = JSON.parse(localStorage.getItem('kalk-saved-v1') || '[]');
+      renderSummary();
+    } catch(e) { savedProducts = []; }
+  }
+
+  /* ── Persist settings ── */
+  const SETTING_IDS = ['s-ebay-rate','s-ebay-fixed','s-etsy-tx','s-etsy-pay-pct','s-etsy-pay-fixed','s-etsy-listing','s-tax','s-pkg'];
+
+  function saveSettings() {
+    const obj = {};
+    SETTING_IDS.forEach(id => obj[id] = document.getElementById(id).value);
+    localStorage.setItem('kalk-v1', JSON.stringify(obj));
+  }
+
+  function loadSettings() {
+    try {
+      const obj = JSON.parse(localStorage.getItem('kalk-v1') || '{}');
+      SETTING_IDS.forEach(id => { if (obj[id] !== undefined) document.getElementById(id).value = obj[id]; });
+    } catch(e) {}
+  }
+
+  SETTING_IDS.forEach(id => {
+    document.getElementById(id).addEventListener('input', () => { saveSettings(); calc(); });
+  });
+
+  loadSettings();
+  loadSaved();
+</script>
+</body>
+</html>
