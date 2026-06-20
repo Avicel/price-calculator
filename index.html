@@ -590,74 +590,85 @@
       <span class="card-title">ℹ 税务逻辑 · Steuerhinweise</span>
       <button class="ghost-btn" onclick="toggleNotes()" id="notes-btn">展开 · Öffnen</button>
     </div>
-    <div class="settings-body card-body" id="notes-body" style="font-size:13px;line-height:1.8;color:#334155;">
+    <div class="settings-body card-body" id="notes-body" style="font-size:13px;line-height:1.7;color:#334155;">
 
-      <!-- ① -->
-      <p style="font-weight:700;margin-bottom:6px;font-size:14px;">① 为什么用 19/119，不直接乘以 19%？</p>
-      <p>eBay 上的售价是<strong>含税价</strong>（已包含 19% MwSt.）。想从含税价里拆出税额，必须用 19/119，不能直接乘以 19%。</p>
-      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin:6px 0 4px;font-family:monospace;font-size:12px;">
-        含税价：€4.49<br>
-        税额 = €4.49 × 19/119 = <strong>€0.72</strong><br>
-        净价 = €4.49 − €0.72 = <strong>€3.77</strong><br><br>
-        ❌ 错误：€4.49 × 19% = €0.85（把含税价当净价加税，结果偏高）<br>
-        ✓ 正确：€4.49 × 19/119 = €0.72
+      <!-- ① MwSt formulas -->
+      <p style="font-weight:700;margin-bottom:10px;">① MwSt. / 增值税计算公式</p>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:0;">
+        <thead>
+          <tr style="background:#F1F5F9;">
+            <th style="padding:7px 10px;text-align:left;font-weight:600;color:#475569;border-bottom:2px solid #E2E8F0;width:45%;">计算方向 / Berechnung</th>
+            <th style="padding:7px 10px;text-align:left;font-weight:600;color:#475569;border-bottom:2px solid #E2E8F0;">公式 / Formel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #F1F5F9;">
+            <td style="padding:7px 10px;">净价 → 含税价<br><span style="color:#64748B;">Netto → Brutto</span></td>
+            <td style="padding:7px 10px;font-family:monospace;">Brutto = Netto × 1,19</td>
+          </tr>
+          <tr style="border-bottom:1px solid #F1F5F9;background:#F8FAFC;">
+            <td style="padding:7px 10px;">含税价 → 净价<br><span style="color:#64748B;">Brutto → Netto</span></td>
+            <td style="padding:7px 10px;font-family:monospace;">Netto = Brutto ÷ 1,19</td>
+          </tr>
+          <tr>
+            <td style="padding:7px 10px;">含税价中的税额<br><span style="color:#64748B;">MwSt. aus Brutto</span></td>
+            <td style="padding:7px 10px;font-family:monospace;">MwSt. = Brutto × 19/119</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin:10px 0 18px;font-family:monospace;font-size:12px;">
+        示例 / Beispiel: Brutto €14,89<br>
+        MwSt.  = €14,89 × 19/119 = <strong>€2,38</strong><br>
+        Netto  = €14,89 ÷ 1,19   = <strong>€12,51</strong><br>
+        Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓
       </div>
 
-      <p style="font-weight:700;margin:4px 0 6px;font-size:13px;color:#2563EB;">Warum 19/119 und nicht einfach × 19%?</p>
-      <p style="color:#475569;">Der eBay-Verkaufspreis ist ein <strong>Bruttobetrag</strong> – die 19% MwSt. sind bereits enthalten. Um den Steueranteil herauszurechnen, muss man 19/119 verwenden, nicht einfach × 19% rechnen.</p>
-      <div style="background:#EFF6FF;border-radius:8px;padding:10px 14px;margin:6px 0 16px;font-family:monospace;font-size:12px;color:#334155;">
-        Bruttopreis: €4,49<br>
-        MwSt. = €4,49 × 19/119 = <strong>€0,72</strong><br>
-        Nettopreis = €4,49 − €0,72 = <strong>€3,77</strong><br><br>
-        ❌ Falsch: €4,49 × 19% = €0,85 (behandelt Brutto als Netto – Ergebnis zu hoch)<br>
-        ✓ Richtig: €4,49 × 19/119 = €0,72
-      </div>
+      <!-- ② Vorsteuer -->
+      <p style="font-weight:700;margin-bottom:10px;">② Vorsteuer / 进项税抵扣</p>
+      <p style="margin-bottom:8px;">卖家向买家代收的税，减去自己向供应商付出的税，差额才上交 Finanzamt。<br><span style="color:#64748B;font-size:12px;">Die vom Käufer eingenommene MwSt. minus die selbst gezahlte MwSt. (Vorsteuer) = Zahlung ans Finanzamt.</span></p>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:0;table-layout:fixed;">
+        <tbody>
+          <tr style="border-bottom:1px solid #F1F5F9;">
+            <td style="padding:7px 10px;">向买家收取 MwSt. / MwSt. vom Käufer</td>
+            <td style="padding:7px 10px;text-align:right;font-family:monospace;color:#16A34A;font-weight:600;">+€2,38</td>
+          </tr>
+          <tr style="border-bottom:1px solid #F1F5F9;background:#F8FAFC;">
+            <td style="padding:7px 10px;">付给 eBay 的 MwSt.（Vorsteuer）/ MwSt. an eBay</td>
+            <td style="padding:7px 10px;text-align:right;font-family:monospace;color:#DC2626;font-weight:600;">−€0,26</td>
+          </tr>
+          <tr style="border-top:2px solid #334155;">
+            <td style="padding:7px 10px;font-weight:600;">上交 Finanzamt / Zahlung ans Finanzamt</td>
+            <td style="padding:7px 10px;text-align:right;font-family:monospace;font-weight:700;">€2,12</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:11.5px;color:#64748B;margin:8px 0 18px;">→ eBay 那笔 MwSt. 不是真实成本，报税时抵扣。计算器显示的平台费是抵扣后的净额。<br>→ Die MwSt. an eBay ist kein echter Kostenfaktor – sie wird mit der Umsatzsteuer verrechnet.</p>
 
-      <!-- ② -->
-      <p style="font-weight:700;margin-bottom:6px;font-size:14px;">② Vorsteuer（进项税抵扣）是什么</p>
-      <p>德国增值税逻辑：你代政府向买家收税，但你自己付给供应商（如 eBay）的税可以向税务局要回来，两者相抵后才是真正要缴的金额。</p>
-      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin:6px 0 4px;font-family:monospace;font-size:12px;">
-        向买家代收 MwSt.：        +€0.72<br>
-        付给 eBay 的 MwSt.：     −€0.17  ← Vorsteuer（进项税）<br>
-        ─────────────────────────────────<br>
-        实际交给 Finanzamt：       €0.55<br><br>
-        → eBay 那 €0.17 不是真实成本，报税时会自动抵扣
-      </div>
-
-      <p style="font-weight:700;margin:4px 0 6px;font-size:13px;color:#2563EB;">Was ist Vorsteuerabzug?</p>
-      <p style="color:#475569;">Im deutschen Umsatzsteuersystem kassiert man die MwSt. vom Käufer und leitet sie ans Finanzamt weiter. Die MwSt., die man selbst an Lieferanten (z.B. eBay) zahlt, kann man als Vorsteuer abziehen – beides wird verrechnet.</p>
-      <div style="background:#EFF6FF;border-radius:8px;padding:10px 14px;margin:6px 0 16px;font-family:monospace;font-size:12px;color:#334155;">
-        MwSt. vom Käufer eingenommen:    +€0,72<br>
-        MwSt. an eBay gezahlt:           −€0,17  ← Vorsteuer<br>
-        ─────────────────────────────────────────<br>
-        Tatsächliche Zahlung ans Finanzamt: €0,55<br><br>
-        → Die €0,17 an eBay sind kein echter Kostenfaktor – sie werden beim Finanzamt verrechnet
-      </div>
-
-      <!-- ③ -->
-      <p style="font-weight:700;margin-bottom:6px;font-size:14px;">③ eBay 后台显示 €1.06，计算器显示 €0.89，哪个对？</p>
-      <p>两个数字都对，视角不同。</p>
-      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin:6px 0 4px;font-family:monospace;font-size:12px;">
-        eBay 实际从账户扣款：      €1.06  ← eBay 后台看到的数字<br>
-        其中可抵扣的 Vorsteuer：  −€0.17<br>
-        ──────────────────────────────<br>
-        公司真实净成本：           €0.89  ← 计算器显示的数字
-      </div>
-
-      <p style="font-weight:700;margin:4px 0 6px;font-size:13px;color:#2563EB;">eBay zeigt €1,06 – der Rechner zeigt €0,89. Was ist richtig?</p>
-      <p style="color:#475569;">Beide Zahlen sind korrekt – sie beschreiben nur verschiedene Perspektiven.</p>
-      <div style="background:#EFF6FF;border-radius:8px;padding:10px 14px;margin:6px 0 16px;font-family:monospace;font-size:12px;color:#334155;">
-        eBay-Abbuchung (sichtbar im Backend): €1,06<br>
-        davon abzugsfähige Vorsteuer:        −€0,17<br>
-        ────────────────────────────────────────────<br>
-        Tatsächliche Nettokosten für die UG:  €0,89  ← Betrag im Rechner
-      </div>
+      <!-- ③ 1.06 vs 0.89 -->
+      <p style="font-weight:700;margin-bottom:10px;">③ eBay 后台数字 vs 计算器数字</p>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:0;table-layout:fixed;">
+        <tbody>
+          <tr style="border-bottom:1px solid #F1F5F9;">
+            <td style="padding:7px 10px;">eBay 账单扣款 / eBay-Abbuchung</td>
+            <td style="padding:7px 10px;text-align:right;font-family:monospace;font-weight:600;">€1,06</td>
+          </tr>
+          <tr style="border-bottom:1px solid #F1F5F9;background:#F8FAFC;">
+            <td style="padding:7px 10px;">其中可抵扣 Vorsteuer / davon abzugsfähige Vorsteuer</td>
+            <td style="padding:7px 10px;text-align:right;font-family:monospace;color:#DC2626;font-weight:600;">−€0,17</td>
+          </tr>
+          <tr style="border-top:2px solid #334155;">
+            <td style="padding:7px 10px;font-weight:600;">公司真实成本 / Nettokosten für die UG</td>
+            <td style="padding:7px 10px;text-align:right;font-family:monospace;font-weight:700;">€0,89</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:11.5px;color:#64748B;margin:8px 0 18px;">两个数字都对，视角不同。· Beide Zahlen sind korrekt, nur aus verschiedenen Perspektiven.</p>
 
       <!-- ⚠ -->
-      <div style="background:#FEF9C3;border-radius:8px;padding:12px 14px;margin:4px 0;font-size:12px;">
-        ⚠️ <strong>前提条件 · Voraussetzung</strong><br><br>
-        以上逻辑成立的前提：公司以正常纳税人身份申报增值税（Umsatzsteuervoranmeldung）。若公司为 Kleinunternehmer（小企业主），€0.17 无法抵扣，真实成本为 €1.06。<br><br>
-        <span style="color:#475569;">Diese Logik gilt nur, wenn das Unternehmen regulär umsatzsteuerpflichtig ist und eine Umsatzsteuervoranmeldung abgibt. Als Kleinunternehmer (§19 UStG) entfällt der Vorsteuerabzug – dann sind €1,06 die tatsächlichen Kosten.</span><br><br>
+      <div style="background:#FEF9C3;border-radius:8px;padding:10px 14px;font-size:11.5px;">
+        ⚠️ <strong>前提 · Voraussetzung：</strong>
+        公司须正常申报增值税（Umsatzsteuervoranmeldung）。若为 Kleinunternehmer，Vorsteuer 无法抵扣，真实平台费成本为 €1,06。<br>
+        <span style="color:#64748B;">Als Kleinunternehmer (§19 UStG) entfällt der Vorsteuerabzug – dann sind €1,06 die tatsächlichen Kosten.</span><br>
         <strong>请与会计确认。· Bitte mit dem Steuerberater klären.</strong>
       </div>
 
