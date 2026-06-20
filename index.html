@@ -521,9 +521,28 @@
       line-height: 1.5;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
+      body { padding: 16px 10px 48px; }
       .form-grid { grid-template-columns: 1fr; }
       .fg.full { grid-column: 1; }
+      .card-body { padding: 14px; }
+      .card-head { padding: 11px 14px; }
+      .card-title { font-size: 10px; }
+      .rrow { padding: 7px 0; }
+      .srow { padding: 4px 0 4px 12px; }
+      .rlabel { font-size: 12px; }
+      .rval { font-size: 13px; }
+      .sec { font-size: 9px; padding: 10px 0 2px; }
+      .band { padding: 8px 10px; }
+      .band .blabel { font-size: 12px; }
+      .band .bval { font-size: 14px; }
+      .tot { padding: 12px 0 8px; }
+      .tot .tlabel { font-size: 13px; }
+      .tot .tval { font-size: 19px; }
+      .bke { padding: 9px 12px; gap: 10px; }
+      .bke-val { font-size: 17px; }
+      .header h1 { font-size: 17px; }
+      .prod-head { padding: 11px 14px; }
     }
   </style>
 </head>
@@ -539,8 +558,8 @@
   <!-- Settings -->
   <div class="card">
     <div class="card-head">
-      <span class="card-title">⚙ 全局设置 · Einstellungen · Settings</span>
-      <button class="ghost-btn" onclick="toggleSettings()" id="s-btn">展开 · Öffnen · Expand</button>
+      <span class="card-title">⚙ 全局设置 · Einstellungen</span>
+      <button class="ghost-btn" onclick="toggleSettings()" id="s-btn">展开 · Öffnen</button>
     </div>
     <div class="settings-body card-body" id="settings-body">
       <div class="form-grid">
@@ -682,7 +701,7 @@
   <!-- Input -->
   <div class="card">
     <div class="card-head">
-      <span class="card-title">商品信息 · Produktinfo · Product Info</span>
+      <span class="card-title">商品信息 · Produktinfo</span>
     </div>
     <div class="card-body">
 
@@ -831,14 +850,14 @@
     const body = document.getElementById('notes-body');
     const btn  = document.getElementById('notes-btn');
     const open = body.classList.toggle('open');
-    btn.textContent = open ? '收起 · Schließen · Collapse' : '展开 · Öffnen · Expand';
+    btn.textContent = open ? '收起 · Schließen' : '展开 · Öffnen';
   }
 
   function toggleSettings() {
     const body = document.getElementById('settings-body');
     const btn  = document.getElementById('s-btn');
     const open = body.classList.toggle('open');
-    btn.textContent = open ? '收起 · Schließen · Collapse' : '展开 · Öffnen · Expand';
+    btn.textContent = open ? '收起 · Schließen' : '展开 · Öffnen';
   }
 
   function onImg(e) {
@@ -951,9 +970,9 @@
     return `<${tag} class="${cls}">${html}</${tag}>`;
   }
 
-  function rrow(zh, de, en, val, cls) {
+  function rrow(zh, de, val, cls) {
     return `<div class="rrow">
-      <div class="rlabel">${zh}<span class="sub">${de} · ${en}</span></div>
+      <div class="rlabel">${zh}<span class="sub">${de}</span></div>
       <div class="rval ${cls}">${val}</div>
     </div>`;
   }
@@ -962,13 +981,13 @@
     return `<div class="srow"><span class="slabel">${label}</span><span class="sval ${cls}">${val}</span></div>`;
   }
 
-  function sec(zh, de, en) {
-    return `<div class="sec">${zh} · ${de} · ${en}</div>`;
+  function sec(zh, de) {
+    return `<div class="sec">${zh} · ${de}</div>`;
   }
 
-  function band(zh, de, en, val, pct, color, valCls) {
+  function band(zh, de, val, pct, color, valCls) {
     return `<div class="band ${color}">
-      <div><div class="blabel">${zh}</div><div class="bsub">${de} · ${en}</div></div>
+      <div><div class="blabel">${zh}</div><div class="bsub">${de}</div></div>
       <div style="text-align:right">
         <div class="bval ${valCls}">${val}</div>
         ${pct ? `<div style="font-size:11px;color:var(--gray-500);margin-top:1px">${pct}</div>` : ''}
@@ -985,60 +1004,60 @@
     let h = '';
 
     /* ── Revenue ── */
-    h += sec('收入', 'Erlös', 'Revenue');
-    h += rrow('售价（含税）', 'VKP brutto', 'Selling Price (gross)', fmt(d.vkp), 'dim');
-    h += srow(`└ 其中 MwSt. 19%（→ Finanzamt，非您收入 · kein Erlös）`, `–${fmt(d.mwst)}`, 'neg');
-    h += band('净营业额', 'Netto-Erlös', 'Net Revenue', fmt(d.netErloes), '', 'neutral', '');
+    h += sec('收入', 'Erlös');
+    h += rrow('售价（含税）', 'VKP brutto', fmt(d.vkp), 'dim');
+    h += srow(`└ MwSt. 19% → Finanzamt · kein Erlös`, `–${fmt(d.mwst)}`, 'neg');
+    h += band('净营业额', 'Netto-Erlös', fmt(d.netErloes), '', 'neutral', '');
 
     /* ── Platform fees ── */
-    h += sec('平台费用', 'Plattformgebühren', 'Platform Fees');
+    h += sec('平台费用', 'Plattformgebühren');
     d.feeLines.forEach(f => {
       if (f.isMwst) {
         h += `<div class="srow" style="background:#FEF9C3;">
-          <span class="slabel">${f.label}${f.sub ? `<br><span style="font-size:10.5px;color:#92400E;">${f.sub}</span>` : ''}</span>
+          <span class="slabel">MwSt. 19% auf Gebühren · 费用增值税<br><span style="font-size:10px;color:#92400E;">UG: Vorsteuer abzugsfähig · 可抵扣</span></span>
           <span class="sval" style="color:#92400E;">–${fmt(f.val)}</span>
         </div>`;
         h += `<div class="srow" style="background:#FEF9C3;border-bottom:2px solid #E2E8F0;">
-          <span class="slabel" style="font-weight:600;">eBay 实际扣款 · eBay-Abbuchung · Total deducted</span>
+          <span class="slabel" style="font-weight:600;">eBay 实际扣款 · eBay-Abbuchung</span>
           <span class="sval" style="font-weight:700;color:#92400E;">–${fmt(d.feeTotal + f.val)}</span>
         </div>`;
       } else {
-        h += srow(`└ ${f.label}${f.sub ? ` (${f.sub})` : ''}`, `–${fmt(f.val)}`, 'neg');
+        const shortLabel = f.label.replace(/ · [^·(]+$/, ''); // strip English
+        h += srow(`└ ${shortLabel}${f.sub ? ` (${f.sub.split('×')[0].trim()})` : ''}`, `–${fmt(f.val)}`, 'neg');
       }
     });
-    h += rrow('平台净费用（税后抵扣）', 'Nettogebühren (nach Vorsteuer)', 'Net Platform Fees', `–${fmt(d.feeTotal)}`, 'neg');
+    h += rrow('平台净费用', 'Nettogebühren (nach Vorsteuer)', `–${fmt(d.feeTotal)}`, 'neg');
 
     /* ── Shipping ── */
-    h += sec('发货与履约成本', 'Versand & Fulfillment', 'Shipping & Fulfillment');
-    if (d.vsOut > 0) h += srow('└ 运费 · Versandmarke · Postage', `–${fmt(d.vsOut)}`, 'neg');
-    if (d.pkg  > 0) h += srow('└ 履约服务费 · Fulfillment-Gebühr · Fulfillment Fee', `–${fmt(d.pkg)}`, 'neg');
-    h += rrow('发货成本合计', 'Versandkosten gesamt', 'Total Shipping', `–${fmt(d.shipTotal)}`, 'neg');
+    h += sec('发货与履约', 'Versand & Fulfillment');
+    if (d.vsOut > 0) h += srow('└ 运费 · Versandmarke', `–${fmt(d.vsOut)}`, 'neg');
+    if (d.pkg  > 0) h += srow('└ 履约服务费 · Fulfillment', `–${fmt(d.pkg)}`, 'neg');
+    h += rrow('发货成本合计', 'Versandkosten gesamt', `–${fmt(d.shipTotal)}`, 'neg');
 
     /* ── Purchase ── */
-    h += sec('进货成本', 'Einkaufskosten', 'Purchase Costs');
-    if (d.ek   > 0) h += srow('└ 商品价格 · Warenwert · Item Cost',         `–${fmt(d.ek)}`,   'neg');
-    if (d.ekVs > 0) h += srow('└ 进货运费 · EK-Versand · Inbound Shipping', `–${fmt(d.ekVs)}`, 'neg');
-    if (d.duty > 0) h += srow('└ 进口关税 · Einfuhrzoll · Import Duty',     `–${fmt(d.duty)}`, 'neg');
-    h += rrow('进货成本合计', 'Einkaufskosten gesamt', 'Total Purchase Costs', `–${fmt(d.ekTotal)}`, 'neg');
+    h += sec('进货成本', 'Einkaufskosten');
+    if (d.ek   > 0) h += srow('└ 商品价格 · Warenwert',  `–${fmt(d.ek)}`,   'neg');
+    if (d.ekVs > 0) h += srow('└ 进货运费 · EK-Versand', `–${fmt(d.ekVs)}`, 'neg');
+    if (d.duty > 0) h += srow('└ 进口关税 · Einfuhrzoll', `–${fmt(d.duty)}`, 'neg');
+    h += rrow('进货成本合计', 'Einkaufskosten gesamt', `–${fmt(d.ekTotal)}`, 'neg');
 
     /* ── Operating profit ── */
     const bgColor = d.bg >= 0 ? 'green' : 'red';
     const bgCls   = d.bg >= 0 ? 'pos'   : 'neg';
-    h += band('税前利润', 'Betriebsgewinn', 'Operating Profit',
-              fmt(d.bg), fmtP(d.bg / d.netErloes), bgColor, bgCls);
+    h += band('税前利润', 'Betriebsgewinn', fmt(d.bg), fmtP(d.bg / d.netErloes), bgColor, bgCls);
 
     /* ── Tax ── */
     if (d.bg > 0) {
-      h += sec('企业税', 'Körperschaft- & Gewerbesteuer', 'Corporate Tax');
-      h += srow(`└ 税率 ${(d.s.tax*100).toFixed(0)}%`, `–${fmt(d.tax)}`, 'neg');
+      h += sec('企业税', 'Körperschaft- & Gewerbesteuer');
+      h += srow(`└ 税率 ${(d.s.tax*100).toFixed(0)}% · Steuersatz`, `–${fmt(d.tax)}`, 'neg');
     }
 
     /* ── Net profit ── */
     const npCls = d.net >= 0 ? 'pos' : 'neg';
     h += `<div class="tot">
       <div>
-        <div class="tlabel">净利润 · Nettogewinn · Net Profit</div>
-        <div class="tsub">占净营业额 · % des Netto-Erlöses · % of Net Revenue</div>
+        <div class="tlabel">净利润 · Nettogewinn</div>
+        <div class="tsub">占净营业额 · % des Netto-Erlöses</div>
       </div>
       <div style="text-align:right">
         <div class="tval ${npCls}">${fmt(d.net)}</div>
@@ -1049,12 +1068,12 @@
     /* ── Break-even ── */
     h += `<div class="bke">
       <div>
-        <div class="bke-label">最低售价 · Mindest-VKP · Break-even Price<br>(利润=0 · Gewinn=0 · Zero Profit)</div>
+        <div class="bke-label">最低售价 · Mindest-VKP<br>(利润=0 · Gewinn=0)</div>
         <div class="bke-val">${fmt(d.bke)}</div>
       </div>
       <div class="bke-div"></div>
       <div>
-        <div class="bke-up-label">当前溢价 · Aufschlag · Markup above BEP</div>
+        <div class="bke-up-label">当前溢价 · Aufschlag</div>
         <div class="bke-up-val">${d.markup >= 0 ? '+' : ''}${fmt(d.markup)}</div>
       </div>
     </div>`;
@@ -1063,7 +1082,7 @@
     const total = d.vkp;
     const segs = [
       { label: `MwSt. → Finanzamt`,   color: '#94A3B8', amt: d.mwst },
-      { label: `平台费 · Fees`,        color: '#FB923C', amt: d.feeTotal },
+      { label: `平台费 · Gebühren`,     color: '#FB923C', amt: d.feeTotal },
       { label: `发货 · Versand`,       color: '#60A5FA', amt: d.shipTotal },
       { label: `进货 · EK`,            color: '#F472B6', amt: d.ekTotal },
       { label: `税 · Steuer`,          color: '#A78BFA', amt: Math.max(0, d.tax) },
@@ -1079,7 +1098,7 @@
       </div>
     </div>`;
 
-    h += `<button class="save-btn" onclick="saveProduct()">＋ 保存此商品 · Artikel speichern · Save Product</button>`;
+    h += `<button class="save-btn" onclick="saveProduct()">＋ 保存此商品 · Artikel speichern</button>`;
 
     document.getElementById('results-body').innerHTML = h;
     document.getElementById('results-card').classList.remove('hidden');
@@ -1103,7 +1122,7 @@
     renderSummary();
     // flash feedback
     const btn = document.querySelector('.save-btn');
-    if (btn) { btn.textContent = '✓ 已保存 · Gespeichert · Saved'; setTimeout(() => { btn.textContent = '＋ 保存此商品 · Artikel speichern · Save Product'; }, 1500); }
+    if (btn) { btn.textContent = '✓ 已保存 · Gespeichert'; setTimeout(() => { btn.textContent = '＋ 保存此商品 · Artikel speichern'; }, 1500); }
   }
 
   function deleteProduct(id) {
