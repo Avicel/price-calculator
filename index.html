@@ -896,6 +896,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
         canvas.height = Math.round(img.height * ratio);
         canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
         imgSrc = canvas.toDataURL('image/jpeg', 0.82);
+        if (window._lastCalc) window._lastCalc.img = imgSrc;
 
         const ph = document.getElementById('img-ph');
         const pr = document.getElementById('img-preview');
