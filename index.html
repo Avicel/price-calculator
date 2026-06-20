@@ -584,6 +584,53 @@
     </div>
   </div>
 
+  <!-- Tax notes -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-title">ℹ 税务逻辑 · Steuerhinweise · Tax Logic</span>
+      <button class="ghost-btn" onclick="toggleNotes()" id="notes-btn">展开 · Öffnen · Expand</button>
+    </div>
+    <div class="settings-body card-body" id="notes-body" style="font-size:13px;line-height:1.8;color:#334155;">
+
+      <p style="font-weight:600;margin-bottom:8px;">① 为什么用 19/119，不直接乘以 19%？</p>
+      <p>eBay 上的售价是<strong>含税价</strong>（已经包含了 19% MwSt.）。想从含税价里算出税额，必须用 19/119：</p>
+      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin:8px 0;font-family:monospace;font-size:12px;">
+        含税价 €4.49<br>
+        税额 = €4.49 × 19/119 = <strong>€0.72</strong><br>
+        净价 = €4.49 − €0.72 = <strong>€3.77</strong><br><br>
+        ❌ 错误算法：€4.49 × 19% = €0.85（这等于把 €4.49 当成净价在加税）<br>
+        ✓ 正确算法：€4.49 × 19/119 = €0.72（从含税价里拆出税）
+      </div>
+
+      <p style="font-weight:600;margin:14px 0 8px;">② Vorsteuer（进项税抵扣）是什么</p>
+      <p>德国增值税的逻辑：你代政府向买家收税，但你自己付给供应商（如 eBay）的税可以要回来。</p>
+      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin:8px 0;font-family:monospace;font-size:12px;">
+        卖出商品 → 向买家代收 MwSt.：       +€0.72<br>
+        付 eBay 费用 → eBay 收的 MwSt.：   −€0.17  ← Vorsteuer<br>
+        ────────────────────────────────────────<br>
+        实际交给税务局（Finanzamt）：          €0.55<br><br>
+        → eBay 的 €0.17 不是真实成本，报税时会抵扣掉<br>
+        → 所以计算器里 eBay 费用成本 = €0.89（不含可抵扣的 €0.17）
+      </div>
+
+      <p style="font-weight:600;margin:14px 0 8px;">③ eBay 后台显示 €1.06，计算器显示 €0.89，哪个对？</p>
+      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin:8px 0;font-family:monospace;font-size:12px;">
+        eBay 实际扣款（后台可见）：  €1.06<br>
+        其中可抵扣的 Vorsteuer：    −€0.17<br>
+        ────────────────────────────<br>
+        公司实际承担的净费用：       €0.89  ← 计算器用这个数
+      </div>
+      <p>两个数字都对，视角不同：€1.06 是 eBay 账单的数字，€0.89 是公司真实的成本。</p>
+
+      <div style="background:#FEF9C3;border-radius:8px;padding:10px 14px;margin:14px 0 4px;font-size:12px;">
+        ⚠️ <strong>前提条件</strong>：以上逻辑成立的前提是公司向税务局申报增值税（Umsatzsteuervoranmeldung）。<br>
+        如果公司是 Kleinunternehmer（小企业主免税），则 €0.17 无法抵扣，真实成本是 €1.06。<br>
+        <strong>请与会计确认公司的纳税状态。</strong>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Input -->
   <div class="card">
     <div class="card-head">
@@ -730,6 +777,13 @@
     document.getElementById('btn-ebay').classList.toggle('active', p === 'ebay');
     document.getElementById('btn-etsy').classList.toggle('active', p === 'etsy');
     calc();
+  }
+
+  function toggleNotes() {
+    const body = document.getElementById('notes-body');
+    const btn  = document.getElementById('notes-btn');
+    const open = body.classList.toggle('open');
+    btn.textContent = open ? '收起 · Schließen · Collapse' : '展开 · Öffnen · Expand';
   }
 
   function toggleSettings() {
