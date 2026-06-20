@@ -616,76 +616,71 @@
     <div class="settings-body card-body" id="notes-body" style="font-size:13px;line-height:1.7;color:#334155;">
 
       <!-- ① MwSt formulas -->
-      <p style="font-weight:700;margin-bottom:10px;">① MwSt. / 增值税计算公式</p>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:0;">
-        <thead>
-          <tr style="background:#F1F5F9;">
-            <th style="padding:7px 10px;text-align:left;font-weight:600;color:#475569;border-bottom:2px solid #E2E8F0;width:45%;">计算方向 / Berechnung</th>
-            <th style="padding:7px 10px;text-align:left;font-weight:600;color:#475569;border-bottom:2px solid #E2E8F0;">公式 / Formel</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid #F1F5F9;">
-            <td style="padding:7px 10px;">净价 → 含税价<br><span style="color:#64748B;">Netto → Brutto</span></td>
-            <td style="padding:7px 10px;font-family:monospace;">Brutto = Netto × 1,19</td>
-          </tr>
-          <tr style="border-bottom:1px solid #F1F5F9;background:#F8FAFC;">
-            <td style="padding:7px 10px;">含税价 → 净价<br><span style="color:#64748B;">Brutto → Netto</span></td>
-            <td style="padding:7px 10px;font-family:monospace;">Netto = Brutto ÷ 1,19</td>
-          </tr>
-          <tr>
-            <td style="padding:7px 10px;">含税价中的税额<br><span style="color:#64748B;">MwSt. aus Brutto</span></td>
-            <td style="padding:7px 10px;font-family:monospace;">MwSt. = Brutto × 19/119</td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin:10px 0 18px;font-family:monospace;font-size:12px;">
-        示例 / Beispiel: Brutto €14,89<br>
-        MwSt.  = €14,89 × 19/119 = <strong>€2,38</strong><br>
-        Netto  = €14,89 ÷ 1,19   = <strong>€12,51</strong><br>
-        Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓
+      <p style="font-weight:700;margin-bottom:8px;">① MwSt. / 增值税计算公式</p>
+
+      <div style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;margin-bottom:10px;">
+        <div style="display:flex;background:#F1F5F9;padding:6px 10px;border-bottom:2px solid #E2E8F0;">
+          <div style="flex:1;font-size:10px;font-weight:600;color:#475569;">计算方向 / Berechnung</div>
+          <div style="font-size:10px;font-weight:600;color:#475569;">公式 / Formel</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;gap:10px;">
+          <div style="flex:1;font-size:12px;">净价 → 含税价<br><span style="color:#64748B;font-size:11px;">Netto → Brutto</span></div>
+          <div style="font-family:monospace;font-size:12px;white-space:nowrap;">Brutto = Netto × 1,19</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;background:#F8FAFC;gap:10px;">
+          <div style="flex:1;font-size:12px;">含税价 → 净价<br><span style="color:#64748B;font-size:11px;">Brutto → Netto</span></div>
+          <div style="font-family:monospace;font-size:12px;white-space:nowrap;">Netto = Brutto ÷ 1,19</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:7px 10px;gap:10px;">
+          <div style="flex:1;font-size:12px;">含税价中的税额<br><span style="color:#64748B;font-size:11px;">MwSt. aus Brutto</span></div>
+          <div style="font-family:monospace;font-size:12px;white-space:nowrap;">MwSt. = Brutto × 19/119</div>
+        </div>
+      </div>
+
+      <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin-bottom:18px;overflow-x:auto;">
+        <div style="font-family:monospace;font-size:12px;white-space:pre;">示例 / Beispiel: Brutto €14,89
+MwSt.  = €14,89 × 19/119 = <strong>€2,38</strong>
+Netto  = €14,89 ÷ 1,19   = <strong>€12,51</strong>
+Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
       </div>
 
       <!-- ② Vorsteuer -->
-      <p style="font-weight:700;margin-bottom:10px;">② Vorsteuer / 进项税抵扣</p>
-      <p style="margin-bottom:8px;">卖家向买家代收的税，减去自己向供应商付出的税，差额才上交 Finanzamt。<br><span style="color:#64748B;font-size:12px;">Die vom Käufer eingenommene MwSt. minus die selbst gezahlte MwSt. (Vorsteuer) = Zahlung ans Finanzamt.</span></p>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:0;table-layout:fixed;">
-        <tbody>
-          <tr style="border-bottom:1px solid #F1F5F9;">
-            <td style="padding:7px 10px;">向买家收取 MwSt. / MwSt. vom Käufer</td>
-            <td style="padding:7px 10px;text-align:right;font-family:monospace;color:#16A34A;font-weight:600;">+€2,38</td>
-          </tr>
-          <tr style="border-bottom:1px solid #F1F5F9;background:#F8FAFC;">
-            <td style="padding:7px 10px;">付给 eBay 的 MwSt.（Vorsteuer）/ MwSt. an eBay</td>
-            <td style="padding:7px 10px;text-align:right;font-family:monospace;color:#DC2626;font-weight:600;">−€0,26</td>
-          </tr>
-          <tr style="border-top:2px solid #334155;">
-            <td style="padding:7px 10px;font-weight:600;">上交 Finanzamt / Zahlung ans Finanzamt</td>
-            <td style="padding:7px 10px;text-align:right;font-family:monospace;font-weight:700;">€2,12</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="font-size:11.5px;color:#64748B;margin:8px 0 18px;">→ eBay 那笔 MwSt. 不是真实成本，报税时抵扣。计算器显示的平台费是抵扣后的净额。<br>→ Die MwSt. an eBay ist kein echter Kostenfaktor – sie wird mit der Umsatzsteuer verrechnet.</p>
+      <p style="font-weight:700;margin-bottom:8px;">② Vorsteuer / 进项税抵扣</p>
+      <p style="margin-bottom:8px;font-size:12px;">卖家向买家代收的税，减去自己向供应商付出的税，差额才上交 Finanzamt。<br><span style="color:#64748B;">Die vom Käufer eingenommene MwSt. minus die selbst gezahlte MwSt. (Vorsteuer) = Zahlung ans Finanzamt.</span></p>
+
+      <div style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;gap:10px;">
+          <div style="flex:1;font-size:12px;">向买家收取 MwSt.<br><span style="color:#64748B;font-size:11px;">MwSt. vom Käufer</span></div>
+          <div style="font-family:monospace;font-size:13px;font-weight:600;color:#16A34A;white-space:nowrap;">+€2,38</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;background:#F8FAFC;gap:10px;">
+          <div style="flex:1;font-size:12px;">付给 eBay 的 MwSt.（Vorsteuer）<br><span style="color:#64748B;font-size:11px;">MwSt. an eBay</span></div>
+          <div style="font-family:monospace;font-size:13px;font-weight:600;color:#DC2626;white-space:nowrap;">−€0,26</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:7px 10px;border-top:2px solid #334155;gap:10px;">
+          <div style="flex:1;font-size:12px;font-weight:600;">上交 Finanzamt<br><span style="color:#64748B;font-weight:400;font-size:11px;">Zahlung ans Finanzamt</span></div>
+          <div style="font-family:monospace;font-size:13px;font-weight:700;white-space:nowrap;">€2,12</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#64748B;margin-bottom:18px;">→ eBay 那笔 MwSt. 不是真实成本，报税时抵扣。<br>→ Die MwSt. an eBay ist kein echter Kostenfaktor – sie wird verrechnet.</p>
 
       <!-- ③ 1.06 vs 0.89 -->
-      <p style="font-weight:700;margin-bottom:10px;">③ eBay 后台数字 vs 计算器数字</p>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:0;table-layout:fixed;">
-        <tbody>
-          <tr style="border-bottom:1px solid #F1F5F9;">
-            <td style="padding:7px 10px;">eBay 账单扣款 / eBay-Abbuchung</td>
-            <td style="padding:7px 10px;text-align:right;font-family:monospace;font-weight:600;">€1,06</td>
-          </tr>
-          <tr style="border-bottom:1px solid #F1F5F9;background:#F8FAFC;">
-            <td style="padding:7px 10px;">其中可抵扣 Vorsteuer / davon abzugsfähige Vorsteuer</td>
-            <td style="padding:7px 10px;text-align:right;font-family:monospace;color:#DC2626;font-weight:600;">−€0,17</td>
-          </tr>
-          <tr style="border-top:2px solid #334155;">
-            <td style="padding:7px 10px;font-weight:600;">公司真实成本 / Nettokosten für die UG</td>
-            <td style="padding:7px 10px;text-align:right;font-family:monospace;font-weight:700;">€0,89</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="font-size:11.5px;color:#64748B;margin:8px 0 18px;">两个数字都对，视角不同。· Beide Zahlen sind korrekt, nur aus verschiedenen Perspektiven.</p>
+      <p style="font-weight:700;margin-bottom:8px;">③ eBay 后台数字 vs 计算器数字</p>
+      <div style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;gap:10px;">
+          <div style="flex:1;font-size:12px;">eBay 账单扣款<br><span style="color:#64748B;font-size:11px;">eBay-Abbuchung</span></div>
+          <div style="font-family:monospace;font-size:13px;font-weight:600;white-space:nowrap;">€1,06</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;background:#F8FAFC;gap:10px;">
+          <div style="flex:1;font-size:12px;">其中可抵扣 Vorsteuer<br><span style="color:#64748B;font-size:11px;">davon abzugsfähige Vorsteuer</span></div>
+          <div style="font-family:monospace;font-size:13px;font-weight:600;color:#DC2626;white-space:nowrap;">−€0,17</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:7px 10px;border-top:2px solid #334155;gap:10px;">
+          <div style="flex:1;font-size:12px;font-weight:600;">公司真实成本<br><span style="color:#64748B;font-weight:400;font-size:11px;">Nettokosten für die UG</span></div>
+          <div style="font-family:monospace;font-size:13px;font-weight:700;white-space:nowrap;">€0,89</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#64748B;margin-bottom:18px;">两个数字都对，视角不同。· Beide Zahlen sind korrekt, nur aus verschiedenen Perspektiven.</p>
 
       <!-- ⚠ -->
       <div style="background:#FEF9C3;border-radius:8px;padding:10px 14px;font-size:11.5px;">
