@@ -549,8 +549,12 @@
           <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-ebay-rate" value="12" step="0.1" min="0" max="30"></div>
         </div>
         <div class="fg">
-          <label>eBay 固定费/单 · eBay Festgebühr · eBay Fixed Fee (€)</label>
-          <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-ebay-fixed" value="0.45" step="0.01" min="0"></div>
+          <label>eBay 固定费（订单 &lt;€10）· Festgebühr &lt;€10</label>
+          <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-ebay-fixed-lo" value="0.35" step="0.01" min="0"></div>
+        </div>
+        <div class="fg">
+          <label>eBay 固定费（订单 ≥€10）· Festgebühr ≥€10</label>
+          <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-ebay-fixed-hi" value="0.45" step="0.01" min="0"></div>
         </div>
         <div class="fg">
           <label>Etsy 交易费 · Etsy Transaktionsgebühr · Etsy Transaction (%)</label>
@@ -861,7 +865,8 @@
   function settings() {
     return {
       ebayRate  : g('s-ebay-rate')     / 100,
-      ebayFixed : g('s-ebay-fixed'),
+      ebayFixedLo : g('s-ebay-fixed-lo'),
+      ebayFixedHi : g('s-ebay-fixed-hi'),
       etsyTx    : g('s-etsy-tx')       / 100,
       etsyPayPct: g('s-etsy-pay-pct')  / 100,
       etsyPayFx : g('s-etsy-pay-fixed'),
@@ -896,10 +901,15 @@
     let feeLines = [], feeTotal = 0;
     if (platform === 'ebay') {
       const prov  = vkp * s.ebayRate;
-      const fixed = s.ebayFixed;
+      const fixed = vkp < 10 ? s.ebayFixedLo : s.ebayFixedHi;
+      const fixedLabel = vkp < 10
+        ? `eBay 固定费（<€10）· Festgebühr · Fixed Fee`
+        : `eBay 固定费（≥€10）· Festgebühr · Fixed Fee`;
+      const feeMwst = (prov + fixed) * 0.19;
       feeLines = [
         { label: `eBay 佣金 · Provision · Commission`, sub: `${(s.ebayRate*100).toFixed(1)}% × €${vkp.toFixed(2)}`, val: prov },
-        { label: 'eBay 固定费/单 · Festgebühr · Fixed Fee', sub: '', val: fixed },
+        { label: fixedLabel, sub: '', val: fixed },
+        { label: 'MwSt. 19% on fees · 费用增值税', sub: 'UG: als Vorsteuer abzugsfähig · 可作进项税抵扣', val: feeMwst, isMwst: true },
       ];
       feeTotal = prov + fixed;
     } else {
@@ -927,7 +937,7 @@
     /* ── Break-even (gross VKP where bg = 0) ──
        netErloes - feeRate*VKP - feeFixed - fixedCosts = 0
        VKP*(1/1.19 - feeRate) = feeFixed + fixedCosts          */
-    const feeFixed = platform === 'ebay' ? s.ebayFixed : (s.etsyPayFx + s.etsyList);
+    const feeFixed = platform === 'ebay' ? (vkp < 10 ? s.ebayFixedLo : s.ebayFixedHi) : (s.etsyPayFx + s.etsyList);
     const feeRate  = platform === 'ebay' ? s.ebayRate  : (s.etsyTx + s.etsyPayPct);
     const denom    = 1/1.19 - feeRate;
     const bke      = denom > 0 ? (feeFixed + shipTotal + ekTotal) / denom : 0;
@@ -983,12 +993,20 @@
     /* ── Platform fees ── */
     h += sec('平台费用', 'Plattformgebühren', 'Platform Fees');
     d.feeLines.forEach(f => {
-      h += srow(`└ ${f.label}${f.sub ? ` (${f.sub})` : ''}`, `–${fmt(f.val)}`, 'neg');
+      if (f.isMwst) {
+        h += `<div class="srow" style="background:#FEF9C3;">
+          <span class="slabel">${f.label}${f.sub ? `<br><span style="font-size:10.5px;color:#92400E;">${f.sub}</span>` : ''}</span>
+          <span class="sval" style="color:#92400E;">–${fmt(f.val)}</span>
+        </div>`;
+        h += `<div class="srow" style="background:#FEF9C3;border-bottom:2px solid #E2E8F0;">
+          <span class="slabel" style="font-weight:600;">eBay 实际扣款 · eBay-Abbuchung · Total deducted</span>
+          <span class="sval" style="font-weight:700;color:#92400E;">–${fmt(d.feeTotal + f.val)}</span>
+        </div>`;
+      } else {
+        h += srow(`└ ${f.label}${f.sub ? ` (${f.sub})` : ''}`, `–${fmt(f.val)}`, 'neg');
+      }
     });
-    h += rrow('平台费合计', 'Gebühren gesamt', 'Total Platform Fees', `–${fmt(d.feeTotal)}`, 'neg');
-    h += `<div style="padding:2px 0 0 16px;font-size:10px;color:var(--gray-400);padding-bottom:4px;">
-      MwSt. 19% auf Gebühren als Vorsteuer abzugsfähig (UG) · 平台费增值税可抵扣
-    </div>`;
+    h += rrow('平台净费用（税后抵扣）', 'Nettogebühren (nach Vorsteuer)', 'Net Platform Fees', `–${fmt(d.feeTotal)}`, 'neg');
 
     /* ── Shipping ── */
     h += sec('发货与履约成本', 'Versand & Fulfillment', 'Shipping & Fulfillment');
@@ -1190,7 +1208,7 @@
   }
 
   /* ── Persist settings ── */
-  const SETTING_IDS = ['s-ebay-rate','s-ebay-fixed','s-etsy-tx','s-etsy-pay-pct','s-etsy-pay-fixed','s-etsy-listing','s-tax','s-pkg'];
+  const SETTING_IDS = ['s-ebay-rate','s-ebay-fixed-lo','s-ebay-fixed-hi','s-etsy-tx','s-etsy-pay-pct','s-etsy-pay-fixed','s-etsy-listing','s-tax','s-pkg'];
 
   function saveSettings() {
     const obj = {};
