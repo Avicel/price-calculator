@@ -551,52 +551,52 @@
 
   <!-- Header -->
   <div class="header">
-    <h1>价格计算器 · Preiskalkulator · Price Calculator</h1>
+    <h1>Preiskalkulator · 价格计算器 · Price Calculator</h1>
     <p>UG (haftungsbeschränkt) · eBay · Etsy</p>
   </div>
 
   <!-- Settings -->
   <div class="card">
     <div class="card-head">
-      <span class="card-title">⚙ 全局设置 · Einstellungen</span>
-      <button class="ghost-btn" onclick="toggleSettings()" id="s-btn">展开 · Öffnen</button>
+      <span class="card-title">⚙ Einstellungen · 全局设置</span>
+      <button class="ghost-btn" onclick="toggleSettings()" id="s-btn">Öffnen · 展开</button>
     </div>
     <div class="settings-body card-body" id="settings-body">
       <div class="form-grid">
         <div class="fg">
-          <label>eBay 佣金率 · eBay Provision · eBay Rate (%)<br><span style="color:#94A3B8">当前12%，2026年7月起14% · Ab Juli 2026: 14%</span></label>
+          <label>eBay Provision · 佣金率<br><span style="color:#94A3B8">Ab Juli 2026: 14% · 2026年7月起改14%</span></label>
           <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-ebay-rate" value="12" step="0.1" min="0" max="30"></div>
         </div>
         <div class="fg">
-          <label>eBay 固定费（订单 &lt;€10）· Festgebühr &lt;€10</label>
+          <label>eBay Festgebühr &lt;€10 · 固定费（&lt;€10）</label>
           <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-ebay-fixed-lo" value="0.35" step="0.01" min="0"></div>
         </div>
         <div class="fg">
-          <label>eBay 固定费（订单 ≥€10）· Festgebühr ≥€10</label>
+          <label>eBay Festgebühr ≥€10 · 固定费（≥€10）</label>
           <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-ebay-fixed-hi" value="0.45" step="0.01" min="0"></div>
         </div>
         <div class="fg">
-          <label>Etsy 交易费 · Etsy Transaktionsgebühr · Etsy Transaction (%)</label>
+          <label>Etsy Transaktionsgebühr · 交易费 (%)</label>
           <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-etsy-tx" value="6.5" step="0.1" min="0"></div>
         </div>
         <div class="fg">
-          <label>Etsy 支付处理费 · Etsy Zahlungsgebühr · Etsy Payment (%)</label>
+          <label>Etsy Zahlungsgebühr · 支付费 (%)</label>
           <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-etsy-pay-pct" value="4" step="0.1" min="0"></div>
         </div>
         <div class="fg">
-          <label>Etsy 支付固定费 · Etsy Zahlungsfestgebühr · Etsy Payment Fixed (€)</label>
+          <label>Etsy Zahlungsfestgebühr · 支付固定费 (€)</label>
           <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-etsy-pay-fixed" value="0.30" step="0.01" min="0"></div>
         </div>
         <div class="fg">
-          <label>Etsy 刊登费 · Etsy Einstellgebühr · Etsy Listing Fee (€)</label>
+          <label>Etsy Einstellgebühr · 刊登费 (€)</label>
           <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-etsy-listing" value="0.18" step="0.01" min="0"></div>
         </div>
         <div class="fg">
-          <label>企业税率 · Körperschaft+Gewerbe · Corporate Tax Rate (%)</label>
+          <label>Körperschaft- & Gewerbesteuer · 企业税率 (%)</label>
           <div class="inp-wrap"><span class="sym">%</span><input type="number" id="s-tax" value="30" step="1" min="0" max="60"></div>
         </div>
         <div class="fg">
-          <label>默认履约服务费 · Standard-Fulfillment · Default Fulfillment Fee (€)</label>
+          <label>Standard-Fulfillment · 默认履约服务费 (€)</label>
           <div class="inp-wrap"><span class="sym">€</span><input type="number" id="s-pkg" value="0.80" step="0.01" min="0"></div>
         </div>
       </div>
@@ -610,8 +610,8 @@
   <!-- Tax notes -->
   <div class="card">
     <div class="card-head">
-      <span class="card-title">ℹ 税务逻辑 · Steuerhinweise</span>
-      <button class="ghost-btn" onclick="toggleNotes()" id="notes-btn">展开 · Öffnen</button>
+      <span class="card-title">ℹ Steuerhinweise · 税务逻辑</span>
+      <button class="ghost-btn" onclick="toggleNotes()" id="notes-btn">Öffnen · 展开</button>
     </div>
     <div class="settings-body card-body" id="notes-body" style="font-size:13px;line-height:1.7;color:#334155;">
 
@@ -696,7 +696,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
   <!-- Input -->
   <div class="card">
     <div class="card-head">
-      <span class="card-title">商品信息 · Produktinfo</span>
+      <span class="card-title">Produktinfo · 商品信息</span>
     </div>
     <div class="card-body">
 
@@ -710,12 +710,12 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
 
         <!-- Image -->
         <div class="fg full">
-          <label>商品图片 · Produktbild · Product Image</label>
+          <label>Produktbild · 商品图片</label>
           <div class="img-zone" id="img-zone">
             <input type="file" accept="image/*" id="img-input" onchange="onImg(event)">
             <div id="img-ph">
               <div class="img-icon">📦</div>
-              <div class="img-hint">点击上传 · Klicken · Click to upload</div>
+              <div class="img-hint">Klicken · 点击上传</div>
             </div>
             <img id="img-preview" class="hidden" alt="preview">
           </div>
@@ -723,13 +723,13 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
 
         <!-- Name -->
         <div class="fg full">
-          <label>商品名称 · Artikelname · Product Name</label>
+          <label>Artikelname · 商品名称</label>
           <input type="text" id="name" placeholder="z.B. Bondageseil 10m">
         </div>
 
         <!-- VKP -->
         <div class="fg">
-          <label>售价（含税）· VKP brutto · Selling Price (gross incl. 19% VAT)</label>
+          <label>VKP brutto · 售价（含税，inkl. 19% MwSt.）</label>
           <div class="inp-wrap"><span class="sym">€</span>
             <input type="number" id="vkp" placeholder="0.00" step="0.01" min="0" oninput="calc()">
           </div>
@@ -737,7 +737,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
 
         <!-- EK -->
         <div class="fg">
-          <label>进货价 · EK-Preis · Purchase Price per Unit</label>
+          <label>EK-Preis · 进货价</label>
           <div class="inp-wrap"><span class="sym">€</span>
             <input type="number" id="ek" placeholder="0.00" step="0.01" min="0" oninput="calc()">
           </div>
@@ -745,7 +745,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
 
         <!-- EK Versand -->
         <div class="fg">
-          <label>进货运费/件 · EK-Versand · Inbound Shipping per Unit</label>
+          <label>EK-Versand · 进货运费/件</label>
           <div class="inp-wrap"><span class="sym">€</span>
             <input type="number" id="ek-vs" placeholder="0.00" step="0.01" min="0" oninput="calc()">
           </div>
@@ -753,15 +753,15 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
 
         <!-- Versandmarke -->
         <div class="fg">
-          <label>发货邮费 · Versandmarke · Outbound Postage</label>
+          <label>Versandmarke · 发货邮费</label>
           <div class="inp-wrap"><span class="sym">€</span>
             <input type="number" id="vs-out" placeholder="0.00" step="0.01" min="0" oninput="calc()">
           </div>
         </div>
 
-        <!-- Verpackung -->
+        <!-- Fulfillment -->
         <div class="fg">
-          <label>履约服务费 · Fulfillment-Gebühr · Fulfillment Fee<br><span style="color:#94A3B8">包装+储存+打包+发货 · inkl. Verpackung, Lager, Versand</span></label>
+          <label>Fulfillment-Gebühr · 履约服务费<br><span style="color:#94A3B8">inkl. Verpackung, Lager, Versand · 含包装储存打包发货</span></label>
           <div class="inp-wrap"><span class="sym">€</span>
             <input type="number" id="pkg" placeholder="0.80" step="0.01" min="0" oninput="calc()">
           </div>
@@ -769,7 +769,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
 
         <!-- Import Duty -->
         <div class="fg">
-          <label>进口关税（可选）· Einfuhrzoll · Import Duty (optional)</label>
+          <label>Einfuhrzoll · 进口关税（可选）</label>
           <div class="inp-wrap"><span class="sym">€</span>
             <input type="number" id="duty" placeholder="0.00" step="0.01" min="0" oninput="calc()">
           </div>
@@ -798,10 +798,10 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
   <!-- Summary table -->
   <div class="card hidden" id="summary-card">
     <div class="card-head">
-      <span class="card-title">商品汇总 · Produktübersicht · Product Summary</span>
+      <span class="card-title">Produktübersicht · 商品汇总</span>
       <div class="tbl-actions">
-        <button class="dl-btn" onclick="exportCSV()">⬇ 下载 CSV · Herunterladen · Download</button>
-        <button class="clear-btn" onclick="clearAll()">清空 · Leeren · Clear All</button>
+        <button class="dl-btn" onclick="exportCSV()">⬇ CSV herunterladen · 下载</button>
+        <button class="clear-btn" onclick="clearAll()">Leeren · 清空</button>
       </div>
     </div>
     <div class="card-body" style="padding:0">
@@ -845,14 +845,14 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     const body = document.getElementById('notes-body');
     const btn  = document.getElementById('notes-btn');
     const open = body.classList.toggle('open');
-    btn.textContent = open ? '收起 · Schließen' : '展开 · Öffnen';
+    btn.textContent = open ? 'Schließen · 收起' : 'Öffnen · 展开';
   }
 
   function toggleSettings() {
     const body = document.getElementById('settings-body');
     const btn  = document.getElementById('s-btn');
     const open = body.classList.toggle('open');
-    btn.textContent = open ? '收起 · Schließen' : '展开 · Öffnen';
+    btn.textContent = open ? 'Schließen · 收起' : 'Öffnen · 展开';
   }
 
   function onImg(e) {
@@ -967,7 +967,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
 
   function rrow(zh, de, val, cls) {
     return `<div class="rrow">
-      <div class="rlabel">${zh}<span class="sub">${de}</span></div>
+      <div class="rlabel">${de}<span class="sub">${zh}</span></div>
       <div class="rval ${cls}">${val}</div>
     </div>`;
   }
@@ -977,12 +977,12 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
   }
 
   function sec(zh, de) {
-    return `<div class="sec">${zh} · ${de}</div>`;
+    return `<div class="sec">${de} · ${zh}</div>`;
   }
 
   function band(zh, de, val, pct, color, valCls) {
     return `<div class="band ${color}">
-      <div><div class="blabel">${zh}</div><div class="bsub">${de}</div></div>
+      <div><div class="blabel">${de}</div><div class="bsub">${zh}</div></div>
       <div style="text-align:right">
         <div class="bval ${valCls}">${val}</div>
         ${pct ? `<div style="font-size:11px;color:var(--gray-500);margin-top:1px">${pct}</div>` : ''}
@@ -1001,7 +1001,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     /* ── Revenue ── */
     h += sec('收入', 'Erlös');
     h += rrow('售价（含税）', 'VKP brutto', fmt(d.vkp), 'dim');
-    h += srow(`└ MwSt. 19% → Finanzamt · kein Erlös`, `–${fmt(d.mwst)}`, 'neg');
+    h += srow(`└ MwSt. 19% → Finanzamt · 非您收入`, `–${fmt(d.mwst)}`, 'neg');
     h += band('净营业额', 'Netto-Erlös', fmt(d.netErloes), '', 'neutral', '');
 
     /* ── Platform fees ── */
@@ -1009,11 +1009,11 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     d.feeLines.forEach(f => {
       if (f.isMwst) {
         h += `<div class="srow" style="background:#FEF9C3;">
-          <span class="slabel">MwSt. 19% auf Gebühren · 费用增值税<br><span style="font-size:10px;color:#92400E;">UG: Vorsteuer abzugsfähig · 可抵扣</span></span>
+          <span class="slabel">MwSt. 19% auf Gebühren · 费用增值税<br><span style="font-size:10px;color:#92400E;">Vorsteuer abzugsfähig (UG) · 可抵扣</span></span>
           <span class="sval" style="color:#92400E;">–${fmt(f.val)}</span>
         </div>`;
         h += `<div class="srow" style="background:#FEF9C3;border-bottom:2px solid #E2E8F0;">
-          <span class="slabel" style="font-weight:600;">eBay 实际扣款 · eBay-Abbuchung</span>
+          <span class="slabel" style="font-weight:600;">eBay-Abbuchung · 实际扣款</span>
           <span class="sval" style="font-weight:700;color:#92400E;">–${fmt(d.feeTotal + f.val)}</span>
         </div>`;
       } else {
@@ -1021,20 +1021,20 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
         h += srow(`└ ${shortLabel}${f.sub ? ` (${f.sub.split('×')[0].trim()})` : ''}`, `–${fmt(f.val)}`, 'neg');
       }
     });
-    h += rrow('平台净费用', 'Nettogebühren (nach Vorsteuer)', `–${fmt(d.feeTotal)}`, 'neg');
+    h += rrow('净平台费用', 'Nettogebühren (nach Vorsteuer)', `–${fmt(d.feeTotal)}`, 'neg');
 
     /* ── Shipping ── */
     h += sec('发货与履约', 'Versand & Fulfillment');
-    if (d.vsOut > 0) h += srow('└ 运费 · Versandmarke', `–${fmt(d.vsOut)}`, 'neg');
-    if (d.pkg  > 0) h += srow('└ 履约服务费 · Fulfillment', `–${fmt(d.pkg)}`, 'neg');
-    h += rrow('发货成本合计', 'Versandkosten gesamt', `–${fmt(d.shipTotal)}`, 'neg');
+    if (d.vsOut > 0) h += srow('└ Versandmarke · 运费', `–${fmt(d.vsOut)}`, 'neg');
+    if (d.pkg  > 0) h += srow('└ Fulfillment · 履约服务费', `–${fmt(d.pkg)}`, 'neg');
+    h += rrow('发货合计', 'Versandkosten gesamt', `–${fmt(d.shipTotal)}`, 'neg');
 
     /* ── Purchase ── */
     h += sec('进货成本', 'Einkaufskosten');
-    if (d.ek   > 0) h += srow('└ 商品价格 · Warenwert',  `–${fmt(d.ek)}`,   'neg');
-    if (d.ekVs > 0) h += srow('└ 进货运费 · EK-Versand', `–${fmt(d.ekVs)}`, 'neg');
-    if (d.duty > 0) h += srow('└ 进口关税 · Einfuhrzoll', `–${fmt(d.duty)}`, 'neg');
-    h += rrow('进货成本合计', 'Einkaufskosten gesamt', `–${fmt(d.ekTotal)}`, 'neg');
+    if (d.ek   > 0) h += srow('└ Warenwert · 商品价格',   `–${fmt(d.ek)}`,   'neg');
+    if (d.ekVs > 0) h += srow('└ EK-Versand · 进货运费',  `–${fmt(d.ekVs)}`, 'neg');
+    if (d.duty > 0) h += srow('└ Einfuhrzoll · 进口关税', `–${fmt(d.duty)}`, 'neg');
+    h += rrow('进货合计', 'Einkaufskosten gesamt', `–${fmt(d.ekTotal)}`, 'neg');
 
     /* ── Operating profit ── */
     const bgColor = d.bg >= 0 ? 'green' : 'red';
@@ -1044,15 +1044,15 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     /* ── Tax ── */
     if (d.bg > 0) {
       h += sec('企业税', 'Körperschaft- & Gewerbesteuer');
-      h += srow(`└ 税率 ${(d.s.tax*100).toFixed(0)}% · Steuersatz`, `–${fmt(d.tax)}`, 'neg');
+      h += srow(`└ Steuersatz ${(d.s.tax*100).toFixed(0)}% · 税率`, `–${fmt(d.tax)}`, 'neg');
     }
 
     /* ── Net profit ── */
     const npCls = d.net >= 0 ? 'pos' : 'neg';
     h += `<div class="tot">
       <div>
-        <div class="tlabel">净利润 · Nettogewinn</div>
-        <div class="tsub">占净营业额 · % des Netto-Erlöses</div>
+        <div class="tlabel">Nettogewinn · 净利润</div>
+        <div class="tsub">% des Netto-Erlöses · 占净营业额</div>
       </div>
       <div style="text-align:right">
         <div class="tval ${npCls}">${fmt(d.net)}</div>
@@ -1063,12 +1063,12 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     /* ── Break-even ── */
     h += `<div class="bke">
       <div>
-        <div class="bke-label">最低售价 · Mindest-VKP<br>(利润=0 · Gewinn=0)</div>
+        <div class="bke-label">Mindest-VKP · 最低售价<br>(Gewinn=0 · 利润=0)</div>
         <div class="bke-val">${fmt(d.bke)}</div>
       </div>
       <div class="bke-div"></div>
       <div>
-        <div class="bke-up-label">当前溢价 · Aufschlag</div>
+        <div class="bke-up-label">Aufschlag · 当前溢价</div>
         <div class="bke-up-val">${d.markup >= 0 ? '+' : ''}${fmt(d.markup)}</div>
       </div>
     </div>`;
@@ -1076,12 +1076,12 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     /* ── Visual bar ── */
     const total = d.vkp;
     const segs = [
-      { label: `MwSt. → Finanzamt`,   color: '#94A3B8', amt: d.mwst },
-      { label: `平台费 · Gebühren`,     color: '#FB923C', amt: d.feeTotal },
-      { label: `发货 · Versand`,       color: '#60A5FA', amt: d.shipTotal },
-      { label: `进货 · EK`,            color: '#F472B6', amt: d.ekTotal },
-      { label: `税 · Steuer`,          color: '#A78BFA', amt: Math.max(0, d.tax) },
-      { label: `净利润 · Nettogewinn`, color: '#34D399', amt: Math.max(0, d.net) },
+      { label: `MwSt. → Finanzamt`,    color: '#94A3B8', amt: d.mwst },
+      { label: `Gebühren · 平台费`,    color: '#FB923C', amt: d.feeTotal },
+      { label: `Versand · 发货`,       color: '#60A5FA', amt: d.shipTotal },
+      { label: `EK · 进货`,            color: '#F472B6', amt: d.ekTotal },
+      { label: `Steuer · 税`,          color: '#A78BFA', amt: Math.max(0, d.tax) },
+      { label: `Nettogewinn · 净利润`, color: '#34D399', amt: Math.max(0, d.net) },
     ].filter(s => s.amt > 0);
 
     h += `<div class="bar-wrap">
@@ -1093,7 +1093,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
       </div>
     </div>`;
 
-    h += `<button class="save-btn" onclick="saveProduct()">＋ 保存此商品 · Artikel speichern</button>`;
+    h += `<button class="save-btn" onclick="saveProduct()">＋ Artikel speichern · 保存此商品</button>`;
 
     document.getElementById('results-body').innerHTML = h;
     document.getElementById('results-card').classList.remove('hidden');
@@ -1117,7 +1117,7 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     renderSummary();
     // flash feedback
     const btn = document.querySelector('.save-btn');
-    if (btn) { btn.textContent = '✓ 已保存 · Gespeichert'; setTimeout(() => { btn.textContent = '＋ 保存此商品 · Artikel speichern'; }, 1500); }
+    if (btn) { btn.textContent = '✓ Gespeichert · 已保存'; setTimeout(() => { btn.textContent = '＋ Artikel speichern · 保存此商品'; }, 1500); }
   }
 
   function deleteProduct(id) {
