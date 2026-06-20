@@ -616,78 +616,78 @@
     <div class="settings-body card-body" id="notes-body" style="font-size:13px;line-height:1.7;color:#334155;">
 
       <!-- ① MwSt formulas -->
-      <p style="font-weight:700;margin-bottom:8px;">① MwSt. / 增值税计算公式</p>
+      <p style="font-weight:700;margin-bottom:8px;">① MwSt. · 增值税计算公式</p>
 
       <div style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;margin-bottom:10px;">
         <div style="display:flex;background:#F1F5F9;padding:6px 10px;border-bottom:2px solid #E2E8F0;">
-          <div style="flex:1;font-size:10px;font-weight:600;color:#475569;">计算方向 / Berechnung</div>
-          <div style="font-size:10px;font-weight:600;color:#475569;">公式 / Formel</div>
+          <div style="flex:1;font-size:10px;font-weight:600;color:#475569;">Berechnung · 计算方向</div>
+          <div style="font-size:10px;font-weight:600;color:#475569;">Formel · 公式</div>
         </div>
         <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;gap:10px;">
-          <div style="flex:1;font-size:12px;">净价 → 含税价<br><span style="color:#64748B;font-size:11px;">Netto → Brutto</span></div>
+          <div style="flex:1;font-size:12px;">Netto → Brutto<br><span style="color:#64748B;font-size:11px;">净价 → 含税价</span></div>
           <div style="font-family:monospace;font-size:12px;white-space:nowrap;">Brutto = Netto × 1,19</div>
         </div>
         <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;background:#F8FAFC;gap:10px;">
-          <div style="flex:1;font-size:12px;">含税价 → 净价<br><span style="color:#64748B;font-size:11px;">Brutto → Netto</span></div>
+          <div style="flex:1;font-size:12px;">Brutto → Netto<br><span style="color:#64748B;font-size:11px;">含税价 → 净价</span></div>
           <div style="font-family:monospace;font-size:12px;white-space:nowrap;">Netto = Brutto ÷ 1,19</div>
         </div>
         <div style="display:flex;align-items:center;padding:7px 10px;gap:10px;">
-          <div style="flex:1;font-size:12px;">含税价中的税额<br><span style="color:#64748B;font-size:11px;">MwSt. aus Brutto</span></div>
+          <div style="flex:1;font-size:12px;">MwSt. aus Brutto<br><span style="color:#64748B;font-size:11px;">含税价中的税额</span></div>
           <div style="font-family:monospace;font-size:12px;white-space:nowrap;">MwSt. = Brutto × 19/119</div>
         </div>
       </div>
 
       <div style="background:#F1F5F9;border-radius:8px;padding:10px 14px;margin-bottom:18px;overflow-x:auto;">
-        <div style="font-family:monospace;font-size:12px;white-space:pre;">示例 / Beispiel: Brutto €14,89
+        <div style="font-family:monospace;font-size:12px;white-space:pre;">Beispiel · 示例: Brutto €14,89
 MwSt.  = €14,89 × 19/119 = <strong>€2,38</strong>
 Netto  = €14,89 ÷ 1,19   = <strong>€12,51</strong>
 Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
       </div>
 
       <!-- ② Vorsteuer -->
-      <p style="font-weight:700;margin-bottom:8px;">② Vorsteuer / 进项税抵扣</p>
-      <p style="margin-bottom:8px;font-size:12px;">卖家向买家代收的税，减去自己向供应商付出的税，差额才上交 Finanzamt。<br><span style="color:#64748B;">Die vom Käufer eingenommene MwSt. minus die selbst gezahlte MwSt. (Vorsteuer) = Zahlung ans Finanzamt.</span></p>
+      <p style="font-weight:700;margin-bottom:8px;">② Vorsteuer · 进项税抵扣</p>
+      <p style="margin-bottom:8px;font-size:12px;">Die vom Käufer eingenommene MwSt. minus die selbst an eBay gezahlte MwSt. (Vorsteuer) = Zahlung ans Finanzamt.<br><span style="color:#64748B;">卖家向买家代收的税，减去付给 eBay 的税，差额才上交 Finanzamt。</span></p>
 
       <div style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;margin-bottom:8px;">
         <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;gap:10px;">
-          <div style="flex:1;font-size:12px;">向买家收取 MwSt.<br><span style="color:#64748B;font-size:11px;">MwSt. vom Käufer</span></div>
+          <div style="flex:1;font-size:12px;">MwSt. vom Käufer<br><span style="color:#64748B;font-size:11px;">向买家收取 MwSt.</span></div>
           <div style="font-family:monospace;font-size:13px;font-weight:600;color:#16A34A;white-space:nowrap;">+€2,38</div>
         </div>
         <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;background:#F8FAFC;gap:10px;">
-          <div style="flex:1;font-size:12px;">付给 eBay 的 MwSt.（Vorsteuer）<br><span style="color:#64748B;font-size:11px;">MwSt. an eBay</span></div>
+          <div style="flex:1;font-size:12px;">MwSt. an eBay (Vorsteuer)<br><span style="color:#64748B;font-size:11px;">付给 eBay 的 MwSt.（可抵扣）</span></div>
           <div style="font-family:monospace;font-size:13px;font-weight:600;color:#DC2626;white-space:nowrap;">−€0,26</div>
         </div>
         <div style="display:flex;align-items:center;padding:7px 10px;border-top:2px solid #334155;gap:10px;">
-          <div style="flex:1;font-size:12px;font-weight:600;">上交 Finanzamt<br><span style="color:#64748B;font-weight:400;font-size:11px;">Zahlung ans Finanzamt</span></div>
+          <div style="flex:1;font-size:12px;font-weight:600;">Zahlung ans Finanzamt<br><span style="color:#64748B;font-weight:400;font-size:11px;">上交税务局</span></div>
           <div style="font-family:monospace;font-size:13px;font-weight:700;white-space:nowrap;">€2,12</div>
         </div>
       </div>
-      <p style="font-size:11px;color:#64748B;margin-bottom:18px;">→ eBay 那笔 MwSt. 不是真实成本，报税时抵扣。<br>→ Die MwSt. an eBay ist kein echter Kostenfaktor – sie wird verrechnet.</p>
+      <p style="font-size:11px;color:#64748B;margin-bottom:18px;">→ Die MwSt. an eBay ist kein echter Kostenfaktor – sie wird beim Finanzamt verrechnet.<br>→ eBay 那笔 MwSt. 不是真实成本，报税时抵扣。</p>
 
       <!-- ③ 1.06 vs 0.89 -->
-      <p style="font-weight:700;margin-bottom:8px;">③ eBay 后台数字 vs 计算器数字</p>
+      <p style="font-weight:700;margin-bottom:8px;">③ eBay-Backend vs. Rechner · 后台 vs. 计算器</p>
       <div style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;margin-bottom:8px;">
         <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;gap:10px;">
-          <div style="flex:1;font-size:12px;">eBay 账单扣款<br><span style="color:#64748B;font-size:11px;">eBay-Abbuchung</span></div>
+          <div style="flex:1;font-size:12px;">eBay-Abbuchung<br><span style="color:#64748B;font-size:11px;">eBay 实际扣款</span></div>
           <div style="font-family:monospace;font-size:13px;font-weight:600;white-space:nowrap;">€1,06</div>
         </div>
         <div style="display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #F1F5F9;background:#F8FAFC;gap:10px;">
-          <div style="flex:1;font-size:12px;">其中可抵扣 Vorsteuer<br><span style="color:#64748B;font-size:11px;">davon abzugsfähige Vorsteuer</span></div>
+          <div style="flex:1;font-size:12px;">davon abzugsfähige Vorsteuer<br><span style="color:#64748B;font-size:11px;">其中可抵扣 Vorsteuer</span></div>
           <div style="font-family:monospace;font-size:13px;font-weight:600;color:#DC2626;white-space:nowrap;">−€0,17</div>
         </div>
         <div style="display:flex;align-items:center;padding:7px 10px;border-top:2px solid #334155;gap:10px;">
-          <div style="flex:1;font-size:12px;font-weight:600;">公司真实成本<br><span style="color:#64748B;font-weight:400;font-size:11px;">Nettokosten für die UG</span></div>
+          <div style="flex:1;font-size:12px;font-weight:600;">Nettokosten für die UG<br><span style="color:#64748B;font-weight:400;font-size:11px;">公司真实成本</span></div>
           <div style="font-family:monospace;font-size:13px;font-weight:700;white-space:nowrap;">€0,89</div>
         </div>
       </div>
-      <p style="font-size:11px;color:#64748B;margin-bottom:18px;">两个数字都对，视角不同。· Beide Zahlen sind korrekt, nur aus verschiedenen Perspektiven.</p>
+      <p style="font-size:11px;color:#64748B;margin-bottom:18px;">Beide Zahlen sind korrekt, nur aus verschiedenen Perspektiven. · 两个数字都对，视角不同。</p>
 
       <!-- ⚠ -->
       <div style="background:#FEF9C3;border-radius:8px;padding:10px 14px;font-size:11.5px;">
-        ⚠️ <strong>前提 · Voraussetzung：</strong>
-        公司须正常申报增值税（Umsatzsteuervoranmeldung）。若为 Kleinunternehmer，Vorsteuer 无法抵扣，真实平台费成本为 €1,06。<br>
-        <span style="color:#64748B;">Als Kleinunternehmer (§19 UStG) entfällt der Vorsteuerabzug – dann sind €1,06 die tatsächlichen Kosten.</span><br>
-        <strong>请与会计确认。· Bitte mit dem Steuerberater klären.</strong>
+        ⚠️ <strong>Voraussetzung · 前提：</strong>
+        Als Kleinunternehmer (§19 UStG) entfällt der Vorsteuerabzug – dann sind €1,06 die tatsächlichen Kosten.<br>
+        <span style="color:#64748B;">若为 Kleinunternehmer，Vorsteuer 无法抵扣，真实平台费成本为 €1,06。</span><br>
+        <strong>Bitte mit dem Steuerberater klären. · 请与会计确认。</strong>
       </div>
 
     </div>
@@ -809,17 +809,17 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
         <table id="summary-table">
           <thead>
             <tr>
-              <th style="min-width:140px">商品名称\nArtikelnname\nProduct Name</th>
-              <th>平台\nPlattform\nPlatform</th>
-              <th>售价\nVKP\nSelling Price</th>
-              <th>净营业额\nNetto-Erlös\nNet Revenue</th>
-              <th>平台费\nGebühren\nPlatform Fees</th>
-              <th>发货+履约\nVersand+Fulfill.\nShipping+Fulfil.</th>
-              <th>进货成本\nEinkauf\nPurchase Cost</th>
-              <th>税前利润\nBetriebsgew.\nOp. Profit</th>
-              <th>净利润\nNettogewinn\nNet Profit</th>
-              <th>利润率\nMarge\nMargin</th>
-              <th>最低售价\nMindest-VKP\nBreak-even</th>
+              <th style="min-width:140px">Artikelname\n商品名称</th>
+              <th>Plattform\n平台</th>
+              <th>VKP brutto\n售价</th>
+              <th>Netto-Erlös\n净营业额</th>
+              <th>Gebühren\n平台费</th>
+              <th>Versand+Fulfillment\n发货+履约</th>
+              <th>Einkauf\n进货成本</th>
+              <th>Betriebsgew.\n税前利润</th>
+              <th>Nettogewinn\n净利润</th>
+              <th>Marge\n利润率</th>
+              <th>Mindest-VKP\n最低售价</th>
               <th></th>
             </tr>
           </thead>
@@ -1167,22 +1167,22 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
   function exportCSV() {
     const BOM = '﻿';
     const headers = [
-      '商品名称 / Artikelname / Product Name',
-      '平台 / Plattform / Platform',
-      '售价(含税) / VKP (brutto) / Selling Price (gross)',
-      '净营业额 / Netto-Erlös / Net Revenue',
-      '平台费合计 / Gebühren gesamt / Total Platform Fees',
-      '发货邮费 / Versandmarke / Outbound Postage',
-      '履约服务费 / Fulfillment-Gebühr / Fulfillment Fee',
-      '进货价 / EK-Preis / Purchase Price',
-      '进货运费 / EK-Versand / Inbound Shipping',
-      '进口关税 / Einfuhrzoll / Import Duty',
-      '进货成本合计 / Einkauf gesamt / Total Purchase Cost',
-      '税前利润 / Betriebsgewinn / Operating Profit',
-      '企业税 / Steuer / Corporate Tax',
-      '净利润 / Nettogewinn / Net Profit',
-      '利润率(%) / Marge (%) / Margin (%)',
-      '最低售价 / Mindest-VKP / Break-even Price',
+      'Artikelname · 商品名称',
+      'Plattform · 平台',
+      'VKP brutto · 售价(含税)',
+      'Netto-Erlös · 净营业额',
+      'Gebühren gesamt · 平台费合计',
+      'Versandmarke · 发货邮费',
+      'Fulfillment-Gebühr · 履约服务费',
+      'EK-Preis · 进货价',
+      'EK-Versand · 进货运费',
+      'Einfuhrzoll · 进口关税',
+      'Einkauf gesamt · 进货成本合计',
+      'Betriebsgewinn · 税前利润',
+      'Steuer · 企业税',
+      'Nettogewinn · 净利润',
+      'Marge (%) · 利润率(%)',
+      'Mindest-VKP · 最低售价',
     ];
 
     const rows = savedProducts.map(p => [
