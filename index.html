@@ -861,16 +861,27 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
-      imgSrc = ev.target.result;
-      const ph = document.getElementById('img-ph');
-      const pr = document.getElementById('img-preview');
-      ph.classList.add('hidden');
-      pr.src = imgSrc;
-      pr.classList.remove('hidden');
-      // results header
-      document.getElementById('r-img').src = imgSrc;
-      document.getElementById('r-img').classList.remove('hidden');
-      document.getElementById('r-ph').classList.add('hidden');
+      // 压缩图片到最大 400×400px，防止 localStorage 超限
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 400;
+        const ratio = Math.min(MAX / img.width, MAX / img.height, 1);
+        const canvas = document.createElement('canvas');
+        canvas.width  = Math.round(img.width  * ratio);
+        canvas.height = Math.round(img.height * ratio);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        imgSrc = canvas.toDataURL('image/jpeg', 0.82);
+
+        const ph = document.getElementById('img-ph');
+        const pr = document.getElementById('img-preview');
+        ph.classList.add('hidden');
+        pr.src = imgSrc;
+        pr.classList.remove('hidden');
+        document.getElementById('r-img').src = imgSrc;
+        document.getElementById('r-img').classList.remove('hidden');
+        document.getElementById('r-ph').classList.add('hidden');
+      };
+      img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
   }
@@ -1114,11 +1125,26 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
     if (!d) return;
     const entry = { ...d, id: Date.now() };
     savedProducts.push(entry);
-    localStorage.setItem('kalk-saved-v1', JSON.stringify(savedProducts));
+
+    // localStorage 可能因图片过大超限，加保护
+    try {
+      localStorage.setItem('kalk-saved-v1', JSON.stringify(savedProducts));
+    } catch(e) {
+      // 超限时保留内存中的数据，仅跳过持久化
+      console.warn('localStorage quota exceeded – data saved in memory only');
+    }
+
+    // 无论 localStorage 是否成功，都更新界面和反馈
     renderSummary();
-    // flash feedback
     const btn = document.querySelector('.save-btn');
-    if (btn) { btn.textContent = '✓ Gespeichert · 已保存'; setTimeout(() => { btn.textContent = '＋ Artikel speichern · 保存此商品'; }, 1500); }
+    if (btn) {
+      btn.textContent = '✓ Gespeichert · 已保存';
+      btn.style.background = '#16A34A';
+      setTimeout(() => {
+        btn.textContent = '＋ Artikel speichern · 保存此商品';
+        btn.style.background = '';
+      }, 1800);
+    }
   }
 
   function deleteProduct(id) {
