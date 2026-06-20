@@ -399,6 +399,30 @@
     .save-btn:hover { background: #1D4ED8; }
     .save-btn:active { background: #1E40AF; }
 
+    /* ── Save toast ── */
+    #save-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #16A34A;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 9999;
+    }
+    #save-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     /* ── Summary table ── */
     .tbl-wrap {
       overflow-x: auto;
@@ -548,6 +572,7 @@
   </style>
 </head>
 <body>
+<div id="save-toast">✓ Gespeichert · 已保存</div>
 <div class="page">
 
   <!-- Header -->
@@ -1134,17 +1159,10 @@ Probe  = €12,51 × 1,19   = <strong>€14,89</strong> ✓</div>
       console.warn('localStorage quota exceeded – data saved in memory only');
     }
 
-    // 无论 localStorage 是否成功，都更新界面和反馈
     renderSummary();
-    const btn = document.querySelector('.save-btn');
-    if (btn) {
-      btn.textContent = '✓ Gespeichert · 已保存';
-      btn.style.background = '#16A34A';
-      setTimeout(() => {
-        btn.textContent = '＋ Artikel speichern · 保存此商品';
-        btn.style.background = '';
-      }, 1800);
-    }
+    const toast = document.getElementById('save-toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
   }
 
   function deleteProduct(id) {
